@@ -13,9 +13,11 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-shadow": ["warn"],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unused-vars": "off",
     "react/require-default-props": "off",
     "import/prefer-default-export": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "object-curly-newline": "off",
     "curly": ["error", "multi-line"],
     "eol-last": 1
