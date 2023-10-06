@@ -1,28 +1,21 @@
-import { StyleSheet } from 'react-native';
+import { Spinner } from '@gluestack-ui/themed';
+import { FlatList, StyleSheet } from 'react-native';
 
+import DebouncedInput from '../../../components/DebounceInput';
 import { Text, View } from '../../../components/Themed';
+import TransactionsCard from '../../../components/TransactionsCard';
+import { useTransactionLoader } from '../../../services/transactions/useTransactionsLoader';
 
-export default function TabTwoScreen() {
-  // TODO: move the logic into a separated hook
-  // const getTransactions = async () => {
-  //   const token = await AsyncStorage.getItem('@token');
-  //   try {
-  //     const response = await axios('http://localhost:3000/api/me/transactions', {
-  //       headers: {
-  //         'x-access-token': token,
-  //       },
-  //     });
-  //
-  //     console.log('trans', response.data);
-  //   } catch (error: any) {
-  //     // Add your own error handler here
-  //     console.log('err', error.message);
-  //   }
-  // };
+export default function Transactions() {
+  const { transactionList, isLoading } = useTransactionLoader();
+
+  if (isLoading) return <Spinner size="large" />;
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Transaction Page</Text>
+
+      <FlatList data={transactionList} renderItem={({ item }) => <TransactionsCard key={item.id} {...item} />} />
     </View>
   );
 }
