@@ -1,11 +1,22 @@
+import { Heading, Spinner } from '@gluestack-ui/themed';
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../../../components/Themed';
+import { useVirtualAddressesLoader } from '../../../services/virtualAddress/useVirtualAddressses';
 
 export default function TabTwoScreen() {
+  const { virtualAddressList, isLoading, error, onCreate, onDelete, onToggleIsActive } = useVirtualAddressesLoader();
+
+  if (isLoading) return <Spinner size="large" />;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Addresses</Text>
+      {virtualAddressList.map((v) => (
+        <View style={{ margin: 10 }} key={v.id}>
+          <Text style={styles.title}>{v.title}</Text>
+          <Text>{v.address}</Text>
+        </View>
+      ))}
     </View>
   );
 }
@@ -19,10 +30,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
 });

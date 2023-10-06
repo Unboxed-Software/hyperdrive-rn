@@ -14,13 +14,13 @@ import { VirtualAddress } from '../../types/virtualAddress.types';
 
 const vAddressCacheKey = 'addressees';
 
-const useVirtualAddress = () => {
+const useVirtualAddressesLoader = () => {
   const toast = useToast();
 
   const {
     data: virtualAddressList,
-    error: virtualAddressListError,
-    isLoading: isVirtualAddressListLoading,
+    error,
+    isLoading,
   } = useQuery<VirtualAddress[]>({
     queryKey: [vAddressCacheKey],
     queryFn: getVirtualAddress,
@@ -72,13 +72,13 @@ const useVirtualAddress = () => {
   });
 
   return {
-    virtualAddressList,
-    virtualAddressListError,
-    isVirtualAddressListLoading,
+    virtualAddressList: virtualAddressList || [],
+    error,
+    isLoading,
     onToggleIsActive: toggleIsActive.mutate,
     onCreate: createMutation.mutate,
     onDelete: deleteMutation.mutate,
   };
 };
 
-export { useVirtualAddress };
+export { useVirtualAddressesLoader };
