@@ -40,7 +40,6 @@ const useVirtualAddressesLoader = () => {
     queryKey: [vAddressCacheKey],
     mutationFn: toggleIsActiveVirtualAddress,
     invalidateOnSuccess: false,
-    successMessage: 'Virtual Address activated Successfully',
     errorMessage: 'Failed to activate the Virtual Address.',
     onMutate: ({ vAddressId }) => {
       const previousData = queryClient.getQueryData<VirtualAddress[]>([vAddressCacheKey]);
