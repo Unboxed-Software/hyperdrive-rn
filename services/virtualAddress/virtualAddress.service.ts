@@ -1,5 +1,6 @@
-import { VirtualAddress } from '../../types/virtualAddress.types';
-import { request } from '../request';
+import { request } from '@services/request';
+
+import { VirtualAddress } from '@/types/virtualAddress.types';
 
 export const getVirtualAddress = async () => {
   const res = await request<{ virtualAddresses: VirtualAddress[] }>('/me/virtual-addresses');

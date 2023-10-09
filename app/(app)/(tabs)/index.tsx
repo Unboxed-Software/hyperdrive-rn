@@ -1,21 +1,22 @@
-import { Spinner } from '@gluestack-ui/themed';
+import { View } from '@components/Themed';
+import MinimalTransactionsCard from '@components/transactions/MinimalTransactionsCard';
+import { Box, Spinner } from '@gluestack-ui/themed';
+import { useTransactionsLoader } from '@services/transactions/useTransactionsLoader';
 import { FlatList, StyleSheet } from 'react-native';
 
-import DebouncedInput from '../../../components/DebounceInput';
-import { Text, View } from '../../../components/Themed';
-import TransactionsCard from '../../../components/TransactionsCard';
-import { useTransactionLoader } from '../../../services/transactions/useTransactionsLoader';
-
 export default function Transactions() {
-  const { transactionList, isLoading } = useTransactionLoader();
+  const { transactionList, isLoading } = useTransactionsLoader();
 
   if (isLoading) return <Spinner size="large" />;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Transaction Page</Text>
-
-      <FlatList data={transactionList} renderItem={({ item }) => <TransactionsCard key={item.id} {...item} />} />
+      <Box padding="$3">
+        <FlatList
+          data={transactionList}
+          renderItem={({ item }) => <MinimalTransactionsCard key={item.id} {...item} />}
+        />
+      </Box>
     </View>
   );
 }

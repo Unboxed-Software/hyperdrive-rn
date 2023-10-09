@@ -1,8 +1,7 @@
+import { SimplifiedToast } from '@components/SimplifiedToast';
 import { useToast } from '@gluestack-ui/themed';
-import { useMutation, UseMutationOptions, UseMutationResult, useQueryClient } from '@tanstack/react-query';
+import { QueryKey, useMutation, UseMutationOptions, UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
-
-import { SimplifiedToast } from '../components/SimplifiedToast';
 
 function useMutationSimplified<TData = unknown, TError = unknown, TVariables = void, TContext = unknown>({
   networkMode = 'always',
@@ -10,16 +9,17 @@ function useMutationSimplified<TData = unknown, TError = unknown, TVariables = v
   mutationFn,
   errorMessage,
   successMessage,
-  cacheKey,
+  queryKey,
   onMutate,
+  onSuccess,
 }: {
   errorMessage: string;
   successMessage?: string;
   invalidateOnSuccess?: boolean;
-  cacheKey: string;
+  queryKey: QueryKey;
 } & Pick<
   UseMutationOptions<TData, TError, TVariables, TContext>,
-  'networkMode' | 'mutationFn' | 'onMutate'
+  'networkMode' | 'mutationFn' | 'onMutate' | 'onSuccess'
 >): UseMutationResult<TData, TError, TVariables, TContext> {
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -33,21 +33,22 @@ function useMutationSimplified<TData = unknown, TError = unknown, TVariables = v
       if (onMutate) onMutate(vars);
     },
 
-    onSuccess: () => {
+    onSuccess: (...args) => {
       if (invalidateOnSuccess) {
-        queryClient.invalidateQueries({ queryKey: [cacheKey] });
+        queryClient.invalidateQueries({ queryKey });
       }
       if (successMessage) {
         toast.show({
           render: ({ id }) => <SimplifiedToast nativeID={id} action="success" description={successMessage} />,
         });
       }
+      if (onSuccess) onSuccess(...args);
     },
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (_error: any, _vars, ctx: { previousData: unknown }) => {
       if (onMutate && ctx?.previousData) {
-        queryClient.setQueryData([cacheKey], ctx?.previousData);
+        queryClient.setQueryData(queryKey, ctx?.previousData);
       }
 
       toast.show({

@@ -1,15 +1,16 @@
+import { SimplifiedToast } from '@components/SimplifiedToast';
 import { useToast } from '@gluestack-ui/themed';
+import useMutationSimplified from '@hooks/useMutationSimplified';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { getTransactions, updateCustomLabels } from './transactions.service';
-import { SimplifiedToast } from '../../components/SimplifiedToast';
-import useMutationSimplified from '../../hooks/useMutationSimplified';
-import { MinimalTransaction } from '../../types/transactions.types';
 
-const transactionsCacheKey = 'transactions';
+import { MinimalTransaction } from '@/types/transactions.types';
 
-const useTransactionLoader = () => {
+export const transactionListCacheKey = 'transactions';
+
+const useTransactionsLoader = () => {
   const toast = useToast();
 
   const {
@@ -17,7 +18,7 @@ const useTransactionLoader = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [transactionsCacheKey],
+    queryKey: [transactionListCacheKey],
     queryFn: getTransactions,
     onError: () => {
       toast.show({
@@ -31,13 +32,13 @@ const useTransactionLoader = () => {
   const queryClient = useQueryClient();
 
   const handleUpdateCustomLabels = useMutationSimplified({
-    cacheKey: transactionsCacheKey,
+    queryKey: [transactionListCacheKey],
     mutationFn: updateCustomLabels,
     invalidateOnSuccess: false,
     onMutate: ({ txId, customLabels }) => {
-      const previousData = queryClient.getQueryData<MinimalTransaction[]>([transactionsCacheKey]);
+      const previousData = queryClient.getQueryData<MinimalTransaction[]>([transactionListCacheKey]);
 
-      queryClient.setQueryData<MinimalTransaction[]>([transactionsCacheKey], (currentData) => {
+      queryClient.setQueryData<MinimalTransaction[]>([transactionListCacheKey], (currentData) => {
         const labelsClone = cloneDeep(currentData);
         const label = labelsClone?.find((va) => va.id === txId);
         if (label) {
@@ -59,4 +60,4 @@ const useTransactionLoader = () => {
   };
 };
 
-export { useTransactionLoader };
+export { useTransactionsLoader };

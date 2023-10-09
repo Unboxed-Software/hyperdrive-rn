@@ -41,6 +41,7 @@ export const request = async <T>(path: string, options?: RequestOptions) => {
     return res.data;
   } catch (e: unknown) {
     // we can add 3rd party loggers here
+    console.error(e);
     const error = e as AxiosError;
     throw new Error(error.message);
   }

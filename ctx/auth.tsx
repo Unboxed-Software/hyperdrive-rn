@@ -1,11 +1,11 @@
+import { useStorageState } from '@hooks/useStorageState';
 import axios from 'axios';
 import { TokenResponse } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import React, { ReactNode, useEffect, useMemo } from 'react';
 
-import { useStorageState } from '../hooks/useStorageState';
-import { UserType } from '../types/user.types';
+import { UserType } from '@/types/user.types';
 
 WebBrowser.maybeCompleteAuthSession();
 

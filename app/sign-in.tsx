@@ -1,7 +1,7 @@
+import { Text, View } from '@components/Themed';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
-import { Text, View } from '../components/Themed';
 import { useSession } from '../ctx/auth';
 
 export default function SignIn() {

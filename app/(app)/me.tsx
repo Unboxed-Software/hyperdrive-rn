@@ -1,7 +1,7 @@
+import { Text, View } from '@components/Themed';
 import { Button, ButtonText } from '@gluestack-ui/themed';
 import { Image, StyleSheet } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
 import { useSession } from '../../ctx/auth';
 
 export default function SignIn() {

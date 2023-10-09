@@ -1,4 +1,6 @@
+import { SimplifiedToast } from '@components/SimplifiedToast';
 import { useToast } from '@gluestack-ui/themed';
+import useMutationSimplified from '@hooks/useMutationSimplified';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { cloneDeep } from 'lodash';
 
@@ -8,9 +10,8 @@ import {
   getVirtualAddress,
   toggleIsActiveVirtualAddress,
 } from './virtualAddress.service';
-import { SimplifiedToast } from '../../components/SimplifiedToast';
-import useMutationSimplified from '../../hooks/useMutationSimplified';
-import { VirtualAddress } from '../../types/virtualAddress.types';
+
+import { VirtualAddress } from '@/types/virtualAddress.types';
 
 const vAddressCacheKey = 'addressees';
 
@@ -36,7 +37,7 @@ const useVirtualAddressesLoader = () => {
   const queryClient = useQueryClient();
 
   const toggleIsActive = useMutationSimplified({
-    cacheKey: vAddressCacheKey,
+    queryKey: [vAddressCacheKey],
     mutationFn: toggleIsActiveVirtualAddress,
     invalidateOnSuccess: false,
     successMessage: 'Virtual Address activated Successfully',
@@ -58,14 +59,14 @@ const useVirtualAddressesLoader = () => {
   });
 
   const createMutation = useMutationSimplified({
-    cacheKey: vAddressCacheKey,
+    queryKey: [vAddressCacheKey],
     mutationFn: creatVirtualAddress,
     successMessage: 'Virtual Address Added Successfully',
     errorMessage: 'Failed to add the Virtual Address.',
   });
 
   const deleteMutation = useMutationSimplified({
-    cacheKey: vAddressCacheKey,
+    queryKey: [vAddressCacheKey],
     mutationFn: deleteVirtualAddress,
     successMessage: 'Virtual Address Removed Successfully',
     errorMessage: 'Failed to remove your Virtual Address.',

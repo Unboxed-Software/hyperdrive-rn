@@ -1,11 +1,10 @@
-import { Heading, Spinner } from '@gluestack-ui/themed';
+import { Text, View } from '@components/Themed';
+import { Spinner } from '@gluestack-ui/themed';
+import { useVirtualAddressesLoader } from '@services/virtualAddress/useVirtualAddressses';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../../../components/Themed';
-import { useVirtualAddressesLoader } from '../../../services/virtualAddress/useVirtualAddressses';
-
 export default function TabTwoScreen() {
-  const { virtualAddressList, isLoading, error, onCreate, onDelete, onToggleIsActive } = useVirtualAddressesLoader();
+  const { virtualAddressList, isLoading } = useVirtualAddressesLoader();
 
   if (isLoading) return <Spinner size="large" />;
 
