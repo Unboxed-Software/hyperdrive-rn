@@ -28,7 +28,10 @@ export const creatVirtualAddress = async ({
 }: {
   fields: Pick<VirtualAddress, 'title' | 'description' | 'address'>;
 }) => {
-  const res = await request<{ virtualAddress: VirtualAddress }>('me/virtual-addresses', { data: fields });
+  const res = await request<{ virtualAddress: VirtualAddress }>('me/virtual-addresses', {
+    data: { fields },
+    method: 'POST',
+  });
   return res.virtualAddress;
 };
 

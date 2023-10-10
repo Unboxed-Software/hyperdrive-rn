@@ -76,7 +76,7 @@ const useVirtualAddressesLoader = () => {
     error,
     isLoading,
     onToggleIsActive: toggleIsActive.mutate,
-    onCreate: createMutation.mutate,
+    onCreate: createMutation.mutateAsync,
     onDelete: deleteMutation.mutate,
   };
 };

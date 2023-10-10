@@ -1,17 +1,19 @@
-import { Text, View } from '@components/Themed';
+import { View } from '@components/Themed';
 import { Spinner } from '@gluestack-ui/themed';
 import { useVirtualAddressesLoader } from '@services/virtualAddress/useVirtualAddressses';
 import { StyleSheet } from 'react-native';
 
+import CreateVirtualAddressButton from '@/components/virtualAddress/CreateVirtualAddressButton';
 import VirtualAddressCard from '@/components/virtualAddress/VirtualAddressCard';
 
 export default function TabTwoScreen() {
-  const { virtualAddressList, isLoading, onDelete, onToggleIsActive } = useVirtualAddressesLoader();
+  const { virtualAddressList, isLoading, onDelete, onToggleIsActive, onCreate } = useVirtualAddressesLoader();
 
   if (isLoading) return <Spinner size="large" />;
 
   return (
     <View style={styles.container}>
+      <CreateVirtualAddressButton onCreate={onCreate} />
       {virtualAddressList.map((v) => (
         <VirtualAddressCard
           key={v.id}
