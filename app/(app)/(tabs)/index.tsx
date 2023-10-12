@@ -1,11 +1,20 @@
+import { useNotifications } from '@/ctx/NotificationProvider';
 import { View } from '@components/Themed';
 import MinimalTransactionsCard from '@components/transactions/MinimalTransactionsCard';
 import { Box, Spinner } from '@gluestack-ui/themed';
 import { useTransactionsLoader } from '@services/transactions/useTransactionsLoader';
+import { useEffect } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 export default function Transactions() {
   const { transactionList, isLoading } = useTransactionsLoader();
+
+  const { promptForNotificationAccessIfNeeded } = useNotifications();
+
+  useEffect(() => {
+    console.log('\nPrompting for notification access\n');
+    promptForNotificationAccessIfNeeded();
+  }, []);
 
   if (isLoading) return <Spinner size="large" />;
 

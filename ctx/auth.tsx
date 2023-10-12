@@ -6,6 +6,7 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { ReactNode, useEffect, useMemo } from 'react';
 
 import { UserType } from '@/types/user.types';
+import { useNotifications } from './NotificationProvider';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -35,17 +36,25 @@ export function useSession() {
 
 export function SessionProvider(props: { children: ReactNode }) {
   const [_request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId: '520104427709-jp0dp1ph0pmf5j0vvpv0fcat8koqi7rg.apps.googleusercontent.com',
+    iosClientId: process.env.EXPO_PUBLIC_IOS_GOOGLE_CLIENT_ID,
   });
 
   const [[isLoading, session], setSession] = useStorageState('session');
 
+  const { setEmail, setUserId } = useNotifications();
+
   const { user, token } = useMemo(() => {
     if (session) {
-      return JSON.parse(session);
+      const parsed = JSON.parse(session);
+      if (parsed.user as UserType) {
+        setEmail(parsed.user.email);
+        setUserId(parsed.user.id);
+      }
+
+      return parsed;
     }
     return { user: undefined, token: undefined };
-  }, [session]);
+  }, [session, setEmail, setUserId]);
 
   useEffect(() => {
     if (!isLoading && !session && response?.type === 'success' && response.authentication) {

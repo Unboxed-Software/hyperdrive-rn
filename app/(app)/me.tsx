@@ -4,7 +4,7 @@ import { Image, StyleSheet } from 'react-native';
 
 import { useSession } from '../../ctx/auth';
 
-export default function SignIn() {
+export default function SignOut() {
   const { user, signOut } = useSession();
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

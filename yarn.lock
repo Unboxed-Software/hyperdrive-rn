@@ -1444,6 +1444,23 @@
     semver "7.3.2"
     tempy "0.3.0"
 
+"@expo/image-utils@^0.3.22":
+  version "0.3.23"
+  resolved "https://registry.yarnpkg.com/@expo/image-utils/-/image-utils-0.3.23.tgz#f14fd7e1f5ff6f8e4911a41e27dd274470665c3f"
+  integrity sha512-nhUVvW0TrRE4jtWzHQl8TR4ox7kcmrc2I0itaeJGjxF5A54uk7avgA0wRt7jP1rdvqQo1Ke1lXyLYREdhN9tPw==
+  dependencies:
+    "@expo/spawn-async" "1.5.0"
+    chalk "^4.0.0"
+    fs-extra "9.0.0"
+    getenv "^1.0.0"
+    jimp-compact "0.16.1"
+    mime "^2.4.4"
+    node-fetch "^2.6.0"
+    parse-png "^2.1.0"
+    resolve-from "^5.0.0"
+    semver "7.3.2"
+    tempy "0.3.0"
+
 "@expo/json-file@^8.2.37", "@expo/json-file@~8.2.37":
   version "8.2.37"
   resolved "https://registry.npmjs.org/@expo/json-file/-/json-file-8.2.37.tgz"
@@ -6715,7 +6732,7 @@ intl-messageformat@^10.1.0:
     "@formatjs/icu-messageformat-parser" "2.6.2"
     tslib "^2.4.0"
 
-invariant@*, invariant@^2.2.4:
+invariant@*, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -8710,6 +8727,13 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   dependencies:
     wrappy "1"
 
+onesignal-expo-plugin@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/onesignal-expo-plugin/-/onesignal-expo-plugin-2.0.1.tgz#67f11ca8294437deb083619343453bbdc81eb3d1"
+  integrity sha512-h89BDPPDK/dywBvS1nUno9T/pgem73x6d5Wp5USKtftYQ/vB1IyyI8SyJgxm7mbJdR7Mj74qNtM/Fsc7zwkguA==
+  dependencies:
+    "@expo/image-utils" "^0.3.22"
+
 onetime@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/onetime/-/onetime-2.0.1.tgz"
@@ -9304,6 +9328,13 @@ react-native-gesture-handler@~2.12.0:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-onesignal@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-5.0.2.tgz#ca6248c2b5faef4e85d42853a0bfd68a76a4d25e"
+  integrity sha512-8CsEQRRwoiNX6JhW0FWbCgkKz5OrsgtmW2BLmOkg7TwNA9Fge2obMda3DSeZniZVDFs6viz6DXkgtZnJjdgNvg==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-picker-select@^8.1.0:
   version "8.1.0"

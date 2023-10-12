@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
 import { SessionProvider } from '../ctx/auth';
+import { NotificationProvider } from '@/ctx/NotificationProvider';
 
 const queryClient = new QueryClient();
 
@@ -51,14 +52,16 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <GluestackUIProvider config={config.theme}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <QueryClientProvider client={queryClient}>
-          <SessionProvider>
-            <Slot />
-          </SessionProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </GluestackUIProvider>
+    <NotificationProvider>
+      <GluestackUIProvider config={config.theme}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <QueryClientProvider client={queryClient}>
+            <SessionProvider>
+              <Slot />
+            </SessionProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </GluestackUIProvider>
+    </NotificationProvider>
   );
 }

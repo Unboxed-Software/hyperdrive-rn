@@ -12,17 +12,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.beunboxed.sol-tracker",
       "CFBundleURLTypes": [
         {
-          "CFBundleURLSchemes": [
-            "com.googleusercontent.apps.520104427709-jp0dp1ph0pmf5j0vvpv0fcat8koqi7rg"
-          ]
+          "CFBundleURLSchemes": ["com.googleusercontent.apps.520104427709-jp0dp1ph0pmf5j0vvpv0fcat8koqi7rg"]
         }
       ]
     },
@@ -41,7 +37,13 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
@@ -53,7 +55,8 @@
       },
       "eas": {
         "projectId": "f5dfc574-9ebf-411c-9ca2-57af94eb621e"
-      }
+      },
+      "oneSignalAppId": "65d8f7ae-8eb7-4ed1-ac06-4683f3bc44eb"
     }
   }
 }
