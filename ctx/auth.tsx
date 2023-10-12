@@ -1,5 +1,5 @@
 import { useStorageState } from '@hooks/useStorageState';
-import axios from 'axios';
+import { request } from '@services/request';
 import { TokenResponse } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -8,16 +8,6 @@ import React, { ReactNode, useEffect, useMemo } from 'react';
 import { UserType } from '@/types/user.types';
 
 WebBrowser.maybeCompleteAuthSession();
-
-const { EXPO_PUBLIC_IOS_GOOGLE_CLIENT_ID, EXPO_PUBLIC_ANDROID_GOOGLE_CLIENT_ID } = process.env;
-
-if (!EXPO_PUBLIC_IOS_GOOGLE_CLIENT_ID) {
-  throw new Error('please provide Google Client ID for IOS Oauth');
-}
-
-if (!EXPO_PUBLIC_ANDROID_GOOGLE_CLIENT_ID) {
-  throw new Error('please provide Google Client ID for Android Oauth');
-}
 
 const AuthContext = React.createContext<{
   signIn: () => void;
@@ -65,15 +55,14 @@ export function SessionProvider(props: { children: ReactNode }) {
 
   const fetchSession = async (data: TokenResponse) => {
     try {
-      const res = await axios('http://localhost:3000/api/mobile-auth/google', {
+      const res = await request('mobile-auth/google', {
         method: 'POST',
         data,
       });
 
-      setSession(JSON.stringify(res.data));
+      setSession(JSON.stringify(res));
     } catch (error: unknown) {
       // Add your own error handler here
-      console.log('err', error);
     }
   };
 

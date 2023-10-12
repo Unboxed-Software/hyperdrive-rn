@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "hyper-mobile",
-    "slug": "hyper-mobile",
+    "name": "sol-tracker",
+    "slug": "sol-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "hyper-mobile",
+    "scheme": "sol-tracker",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -17,8 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.anonymous.hypermobile",
+      "bundleIdentifier": "com.beunboxed.sol-tracker",
       "CFBundleURLTypes": [
         {
           "CFBundleURLSchemes": [
@@ -32,7 +31,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.hypermobile",
+      "package": "com.beunboxed.sol-tracker",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
