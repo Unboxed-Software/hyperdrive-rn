@@ -12,7 +12,6 @@ export default function Transactions() {
   const { promptForNotificationAccessIfNeeded } = useNotifications();
 
   useEffect(() => {
-    console.log('\nPrompting for notification access\n');
     promptForNotificationAccessIfNeeded();
   }, []);
 

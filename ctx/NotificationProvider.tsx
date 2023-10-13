@@ -23,7 +23,6 @@ export function NotificationProvider(props: { children: ReactNode }) {
   }, []);
 
   const initializeOneSignal = () => {
-    console.log('\nInitializing OneSignal\n');
     OneSignal.Debug.setLogLevel(LogLevel.Verbose);
     // OneSignal Initialization
     OneSignal.initialize('65d8f7ae-8eb7-4ed1-ac06-4683f3bc44eb');
