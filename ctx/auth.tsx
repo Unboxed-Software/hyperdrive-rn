@@ -5,8 +5,9 @@ import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import React, { ReactNode, useEffect, useMemo } from 'react';
 
-import { UserType } from '@/types/user.types';
 import { useNotifications } from './NotificationProvider';
+
+import { UserType } from '@/types/user.types';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -48,7 +49,7 @@ export function SessionProvider(props: { children: ReactNode }) {
       const parsed = JSON.parse(session);
       if (parsed.user as UserType) {
         setEmail(parsed.user.email);
-        setUserId(parsed.user.id);
+        setUserId(parsed.user.id.toString());
       }
 
       return parsed;
