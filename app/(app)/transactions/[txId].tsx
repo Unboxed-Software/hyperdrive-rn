@@ -6,10 +6,12 @@ import { useTransactionLoader } from '@services/transactions/useTransactionLoade
 import { Link, useLocalSearchParams } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
+import CustomTransactionNote from '@/components/transactions/CustomTransactionNote';
+
 export default function Transactions() {
   const { txId } = useLocalSearchParams<{ txId: string }>();
 
-  const { transaction, isLoading, onUpdateCustomLabels } = useTransactionLoader(parseInt(txId, 10));
+  const { transaction, isLoading, onUpdateCustomLabels, onUpdateCustomNote } = useTransactionLoader(parseInt(txId, 10));
 
   if (isLoading) return <Spinner size="large" />;
 
@@ -39,6 +41,10 @@ export default function Transactions() {
         <Text my="$1.5" fontSize="$xs">
           {transaction.description}
         </Text>
+        <CustomTransactionNote
+          note={transaction.customNote}
+          onUpdateNote={(note) => onUpdateCustomNote({ txId: transaction.id, customNote: note })}
+        />
         <Link href={`https://explorer.solana.com/tx/${transaction.signature}`}>
           <Text color="$pink600">Find out more</Text>
         </Link>

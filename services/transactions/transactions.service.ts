@@ -21,11 +21,25 @@ export const updateCustomLabels = async ({
   txId,
   customLabels,
 }: {
-  txId: MinimalTransaction['id'];
-  customLabels: MinimalTransaction['customLabels'];
+  txId: Transaction['id'];
+  customLabels: Transaction['customLabels'];
 }) => {
   const res = await request<{ transaction: MinimalTransaction }>(`/me/transactions/${txId}`, {
     data: { customLabels },
+    method: 'PUT',
+  });
+  return res.transaction;
+};
+
+export const updateCustomNote = async ({
+  txId,
+  customNote,
+}: {
+  txId: Transaction['id'];
+  customNote: Transaction['customNote'];
+}) => {
+  const res = await request<{ transaction: MinimalTransaction }>(`/me/transactions/${txId}`, {
+    data: { customNote },
     method: 'PUT',
   });
   return res.transaction;

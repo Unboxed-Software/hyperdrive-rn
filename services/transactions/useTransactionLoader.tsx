@@ -3,7 +3,7 @@ import { useToast } from '@gluestack-ui/themed';
 import useMutationSimplified from '@hooks/useMutationSimplified';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getTransactionById, updateCustomLabels } from './transactions.service';
+import { getTransactionById, updateCustomLabels, updateCustomNote } from './transactions.service';
 import { transactionListCacheKey } from './useTransactionsLoader';
 
 import { Transaction } from '@/types/transactions.types';
@@ -54,11 +54,34 @@ const useTransactionLoader = (txId: Transaction['id']) => {
     errorMessage: 'Failed to update the Transaction.',
   });
 
+  const handleUpdateCustomNote = useMutationSimplified({
+    queryKey: [transactionListCacheKey, txId],
+    mutationFn: updateCustomNote,
+    invalidateOnSuccess: false,
+    onMutate: ({ customNote }) => {
+      const previousData = queryClient.getQueryData<Transaction>(queryKey);
+
+      queryClient.setQueryData<Transaction>(queryKey, (currentData) => {
+        if (currentData) {
+          return { ...currentData, customNote };
+        }
+        return currentData;
+      });
+
+      return { previousData };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [transactionListCacheKey] });
+    },
+    errorMessage: 'Failed to update the Transaction.',
+  });
+
   return {
     transaction,
     error,
     isLoading,
     onUpdateCustomLabels: handleUpdateCustomLabels.mutate,
+    onUpdateCustomNote: handleUpdateCustomNote.mutate,
   };
 };
 
