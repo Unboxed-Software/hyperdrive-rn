@@ -1,7 +1,7 @@
 import Select from '@components/Select';
 import { Box, Heading } from '@gluestack-ui/themed';
-import { CUSTOM_LABEL_OPTIONS } from '@services/transactions/transactions.service';
-import React, { useState } from 'react';
+import { getLabelOptions } from '@services/transactions/transactions.service';
+import React, { useMemo, useState } from 'react';
 
 import { MinimalTransaction } from '@/types/transactions.types';
 
@@ -13,6 +13,8 @@ type Props = {
 
 const CustomTransactionLabels: React.FC<Props> = ({ labels, onUpdateLabels, disabled }) => {
   const [value, setValue] = useState<string | undefined>(labels[0]);
+
+  const labelOptions = useMemo(() => getLabelOptions(), []);
 
   return (
     <Box flexDirection="row" alignItems="center">
@@ -45,7 +47,7 @@ const CustomTransactionLabels: React.FC<Props> = ({ labels, onUpdateLabels, disa
         }}
         onValueChange={(a) => setValue(a)}
         onDonePress={() => onUpdateLabels(value ? [value] : [])}
-        items={CUSTOM_LABEL_OPTIONS}
+        items={labelOptions}
         value={value}
       />
     </Box>

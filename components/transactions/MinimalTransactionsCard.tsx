@@ -1,15 +1,17 @@
 import { Box, Heading, Pressable, Text, VStack } from '@gluestack-ui/themed';
 import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { Link } from 'expo-router';
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { CUSTOM_LABEL_OPTIONS } from '@/services/transactions/transactions.service';
+import { getLabelOptions } from '@/services/transactions/transactions.service';
 import { MinimalTransaction } from '@/types/transactions.types';
 
 type IProps = MinimalTransaction;
 
 const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, createdAt, customLabels }) => {
-  const customLabel = CUSTOM_LABEL_OPTIONS.find((l) => l.value === customLabels[0])?.label || 'Not Labeled';
+  const labelOptions = useMemo(() => getLabelOptions(), []);
+
+  const customLabel = labelOptions.find((l) => l.value === customLabels[0])?.label || 'Not Labeled';
   return (
     <Box borderColor="$borderLight200" borderRadius="$lg" borderWidth="$1" mb="$4" overflow="hidden">
       <Link href={`/transactions/${id}`} asChild>
