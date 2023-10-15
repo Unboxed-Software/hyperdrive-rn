@@ -1,9 +1,10 @@
 import { useNotifications } from '@/ctx/NotificationProvider';
+import { MinimalTransaction } from '@/types/transactions.types';
 import MinimalTransactionsCard from '@components/transactions/MinimalTransactionsCard';
-import { Box, Divider, Heading, Spinner, VStack, View, useToken } from '@gluestack-ui/themed';
+import { Divider, Heading, Spinner, VStack, View, useToken, FlatList } from '@gluestack-ui/themed';
 import { useTransactionsLoader } from '@services/transactions/useTransactionsLoader';
 import { useEffect } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function Transactions() {
   const { transactionList, isLoading } = useTransactionsLoader();
@@ -21,10 +22,11 @@ export default function Transactions() {
         <Spinner size="large" />
       ) : (
         <FlatList
+          width="100%"
           data={transactionList}
           renderItem={({ item }) => (
             <VStack paddingLeft="$4">
-              <MinimalTransactionsCard key={item.id} {...item} />
+              <MinimalTransactionsCard key={(item as MinimalTransaction).id} {...(item as MinimalTransaction)} />
               <Divider bgColor="$trueGray700" />
             </VStack>
           )}

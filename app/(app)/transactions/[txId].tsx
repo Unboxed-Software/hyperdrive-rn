@@ -3,7 +3,6 @@ import {
   Alert,
   AlertIcon,
   AlertText,
-  Box,
   Heading,
   InfoIcon,
   ScrollView,
@@ -11,12 +10,16 @@ import {
   Text,
   VStack,
   View,
+  Divider,
+  Box,
 } from '@gluestack-ui/themed';
 import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { useTransactionLoader } from '@services/transactions/useTransactionLoader';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 import CustomTransactionNote from '@/components/transactions/CustomTransactionNote';
 
@@ -27,48 +30,79 @@ export default function Transactions() {
 
   if (isLoading)
     return (
-      <View justifyContent="center" style={styles.container}>
+      <View flex={1} justifyContent="center">
         <Spinner size="large" />
       </View>
     );
 
   return transaction ? (
-    <View style={styles.container}>
-      <ScrollView>
-        <VStack px="$6" paddingVertical="$8" pb="$6">
-          <Heading color="$textLight100" textAlign="center">
-            Transaction {truncateMiddle(transaction.signature)}
-          </Heading>
-          <Heading textAlign="center" color="$textLight200" size="md" my="$1.5" pb="$6">
-            {dayjs(transaction.createdAt).format(DATE_FORMAT)}
-          </Heading>
-          <Heading color="$textLight100" fontSize="$md" mb="$0">
-            Relevant Account: {transaction.virtualAddress.title} (
-            {replaceSolanaAddressesWithTruncated(transaction.virtualAddress.address)})
-          </Heading>
-          <Heading color="$textLight100" fontSize="$md" mb="$0">
-            Transaction type: {transaction.type}
-          </Heading>
-          <Heading color="$textLight100" fontSize="$md" mb="$0">
-            Description:
-            {replaceSolanaAddressesWithTruncated(transaction.description)}
-          </Heading>
-          <Link href={`https://explorer.solana.com/tx/${transaction.signature}`}>
-            <Text color="$pink600">View transaction on explorer</Text>
-          </Link>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <SafeAreaView style={{ width: '100%' }}>
+        <ScrollView>
+          <VStack paddingStart="$4">
+            <Heading color="$textLight100" textAlign="center" paddingHorizontal="$4">
+              Transaction {truncateMiddle(transaction.signature)}
+            </Heading>
+            <Heading textAlign="center" color="$textLight200" size="md" paddingHorizontal="$4" pb="$8">
+              {dayjs(transaction.createdAt).format(DATE_FORMAT)}
+            </Heading>
+            <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4">
+              Account:
+            </Text>
+            <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
+              {transaction.virtualAddress.title} (
+              {replaceSolanaAddressesWithTruncated(transaction.virtualAddress.address)})
+            </Heading>
+            <Divider bgColor="$trueGray700" />
+            <Text color="$textLight400" bold fontSize="$sm" pt="$2" paddingEnd="$4">
+              Description:
+            </Text>
+            <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
+              {replaceSolanaAddressesWithTruncated(
+                transaction.description.replace(
+                  transaction.virtualAddress.address,
+                  `'${transaction.virtualAddress.title}'`,
+                ),
+              )}
+            </Heading>
+            <Divider bgColor="$trueGray700" />
+            <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4">
+              Transaction type:
+            </Text>
+            <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
+              {transaction.type}
+            </Heading>
+            <Divider bgColor="$trueGray700" />
 
-          <CustomTransactionLabels
-            labels={transaction.customLabels}
-            onUpdateLabels={(customLabels) => onUpdateCustomLabels({ customLabels, txId: transaction.id })}
-          />
-
-          <CustomTransactionNote
-            note={transaction.customNote}
-            onUpdateNote={(note) => onUpdateCustomNote({ txId: transaction.id, customNote: note })}
-          />
-        </VStack>
-      </ScrollView>
-    </View>
+            <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4" pt="$2">
+              Label:
+            </Text>
+            <CustomTransactionLabels
+              labels={transaction.customLabels}
+              onUpdateLabels={(customLabels) => onUpdateCustomLabels({ customLabels, txId: transaction.id })}
+            />
+            <Divider bgColor="$trueGray700" />
+            <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4" pt="$2">
+              Notes:
+            </Text>
+            <Box paddingEnd="$2" paddingVertical="$2">
+              <CustomTransactionNote
+                note={transaction.customNote}
+                onUpdateNote={(note) => onUpdateCustomNote({ txId: transaction.id, customNote: note })}
+              />
+            </Box>
+            <Divider bgColor="$trueGray700" />
+            <Box paddingEnd="$4" paddingVertical="$2">
+              <Link href={`https://explorer.solana.com/tx/${transaction.signature}`}>
+                <Text flexGrow={1} textAlign="right" color="$pink600">
+                  View transaction on explorer
+                </Text>
+              </Link>
+            </Box>
+          </VStack>
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   ) : (
     <Alert mx="$2.5" action="error" variant="solid">
       <AlertIcon as={InfoIcon} mr="$3" />

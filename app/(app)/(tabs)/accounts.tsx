@@ -3,11 +3,17 @@ import { useVirtualAddressesLoader } from '@/services/virtualAddress/useVirtualA
 import { VirtualAddress } from '@/types/virtualAddress.types';
 import VirtualAddressCard from '@/components/virtualAddress/VirtualAddressCard';
 import CreateVirtualAddressButton from '@/components/virtualAddress/CreateVirtualAddressButton';
+import { useTransactionsLoader } from '@/services/transactions/useTransactionsLoader';
 
 export default function Accounts() {
   const { virtualAddressList, isLoading, onDelete, onToggleIsActive, onCreate } = useVirtualAddressesLoader();
+  const { refetch: refetchTransactions } = useTransactionsLoader();
 
-  if (isLoading) return <Spinner size="large" />;
+  const handleAddButtonPressed = (input: { fields: Pick<VirtualAddress, 'title' | 'description' | 'address'> }) => {
+    onCreate(input).then(() => {
+      refetchTransactions();
+    });
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
