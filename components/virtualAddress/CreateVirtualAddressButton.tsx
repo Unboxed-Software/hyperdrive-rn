@@ -78,11 +78,13 @@ const CreateVirtualAddressButton: React.FC<Props> = ({ onCreate }) => {
         }}
       >
         <ModalBackdrop />
-        <ModalContent>
+        <ModalContent bgColor="$trueGray800">
           <ModalHeader>
-            <Heading size="lg">Engage with Modals</Heading>
+            <Heading size="lg" color="$textLight100">
+              Add a Solana account
+            </Heading>
             <ModalCloseButton>
-              <Icon as={CloseIcon} />
+              <Icon color="$light100" as={CloseIcon} />
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
@@ -93,10 +95,11 @@ const CreateVirtualAddressButton: React.FC<Props> = ({ onCreate }) => {
                 isDisabled={formik.isSubmitting}
               >
                 <FormControlLabel>
-                  <FormControlLabelText>Title</FormControlLabelText>
+                  <FormControlLabelText color="$textLight200">Title</FormControlLabelText>
                 </FormControlLabel>
-                <Input>
+                <Input borderColor="$trueGray600">
                   <InputField
+                    color="$textLight100"
                     placeholder="Title..."
                     onChangeText={formik.handleChange('title')}
                     onBlur={formik.handleBlur('title')}
@@ -112,10 +115,11 @@ const CreateVirtualAddressButton: React.FC<Props> = ({ onCreate }) => {
                 isInvalid={!!formik.errors.address && formik.touched.address}
               >
                 <FormControlLabel>
-                  <FormControlLabelText>Address</FormControlLabelText>
+                  <FormControlLabelText color="$textLight200">Address</FormControlLabelText>
                 </FormControlLabel>
-                <Input>
+                <Input borderColor="$trueGray600">
                   <InputField
+                    color="$textLight100"
                     placeholder="Address"
                     onChangeText={formik.handleChange('address')}
                     onBlur={formik.handleBlur('address')}
@@ -128,12 +132,15 @@ const CreateVirtualAddressButton: React.FC<Props> = ({ onCreate }) => {
 
               <FormControl isDisabled={formik.isSubmitting}>
                 <FormControlLabel>
-                  <FormControlLabelText>Description</FormControlLabelText>
+                  <FormControlLabelText color="$textLight200">Description</FormControlLabelText>
                 </FormControlLabel>
-                <Input>
-                  <InputField placeholder="Description" onChangeText={formik.handleChange('description')} />
+                <Input borderColor="$trueGray600">
+                  <InputField
+                    color="$textLight100"
+                    placeholder="Description"
+                    onChangeText={formik.handleChange('description')}
+                  />
                 </Input>
-                <Input />
               </FormControl>
             </VStack>
           </ModalBody>

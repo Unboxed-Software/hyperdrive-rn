@@ -5,11 +5,11 @@ import { LogLevel, OneSignal } from 'react-native-onesignal';
 const NotificationContext = React.createContext<{
   promptForNotificationAccessIfNeeded: () => Promise<void>;
   setEmail: (_email: string) => void;
-  setUserId: (_id: string) => void;
+  setLoggedInUser: (_id: string | null) => void;
 }>({
   promptForNotificationAccessIfNeeded: () => Promise.resolve(),
   setEmail: (_email: string) => {},
-  setUserId: (_id: string) => {},
+  setLoggedInUser: (_id: string | null) => {},
 });
 
 export function useNotifications() {
@@ -45,8 +45,12 @@ export function NotificationProvider(props: { children: ReactNode }) {
     OneSignal.User.addEmail(email);
   };
 
-  const setUserId = (id: string) => {
-    OneSignal.login(id);
+  const setLoggedInUser = (id: string | null) => {
+    if (!id) {
+      OneSignal.logout();
+    } else {
+      OneSignal.login(id);
+    }
   };
 
   return (
@@ -54,7 +58,7 @@ export function NotificationProvider(props: { children: ReactNode }) {
       value={{
         promptForNotificationAccessIfNeeded,
         setEmail,
-        setUserId,
+        setLoggedInUser,
       }}
     >
       {props.children}

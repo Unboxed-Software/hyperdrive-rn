@@ -15,6 +15,7 @@ import {
 } from '@gluestack-ui/themed';
 
 import { VirtualAddress } from '@/types/virtualAddress.types';
+import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 interface Props {
   title: VirtualAddress['title'];
@@ -34,45 +35,22 @@ export default function VirtualAddressCard({
   onToggleActive,
 }: Props) {
   return (
-    <Box
-      maxWidth="$96"
-      padding="$5"
-      borderColor="$borderLight200"
-      borderRadius="$lg"
-      borderWidth="$1"
-      my="$2"
-      overflow="hidden"
-    >
-      <HStack space="sm" w="96%">
-        <Center alignItems="flex-start" w="70%" flexDirection="column">
-          <Box flexDirection="row">
-            <Heading mr="$5" size="sm">
-              {title}
-            </Heading>
-            {isActive ? (
-              <Badge action="success">
-                <BadgeText>Active</BadgeText>
-              </Badge>
-            ) : (
-              <Badge>
-                <BadgeText>Inactive</BadgeText>
-              </Badge>
-            )}
-          </Box>
-          <Text fontSize="$xs" isTruncated>
-            {addressText}
-          </Text>
-        </Center>
-
-        <Center flexGrow={1} w="30%">
-          <ButtonGroup ml={3}>
-            <Switch size="sm" onToggle={onToggleActive} value={isActive} />
-            <Button size="xs" padding="$1" onPress={onDelete} action="negative" variant="outline" aria-label="Delete">
-              <ButtonIcon size="xs" as={TrashIcon} />
-            </Button>
-          </ButtonGroup>
-        </Center>
-      </HStack>
-    </Box>
+    <HStack paddingVertical="$2">
+      <VStack flexGrow={1} alignItems="flex-start" justifyContent="center" space="sm">
+        <Heading flexGrow={1} color="$textLight100" mr="$5" size="sm">
+          {title} ({replaceSolanaAddressesWithTruncated(addressText)})
+        </Heading>
+        {isActive ? (
+          <Badge action="success">
+            <BadgeText>Active</BadgeText>
+          </Badge>
+        ) : (
+          <Badge action="error">
+            <BadgeText>Inactive</BadgeText>
+          </Badge>
+        )}
+      </VStack>
+      <Switch alignSelf="center" size="sm" onToggle={onToggleActive} value={isActive} />
+    </HStack>
   );
 }

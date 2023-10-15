@@ -69,7 +69,7 @@ const CUSTOM_LABEL_OPTIONS_GROUPED = [
     ],
   },
   {
-    label: 'perpetuals / Futures',
+    label: 'Perpetuals / Futures',
     options: [
       { value: 'openPosition', label: 'Open Position' },
       { value: 'closePosition', label: 'Close Position' },
@@ -140,3 +140,16 @@ export const getLabelOptions = () =>
     ],
     [],
   );
+
+export const getLabelBadge = (label: string): string | undefined => {
+  return CUSTOM_LABEL_OPTIONS_GROUPED.reduce<{ label: string; value: string }[]>(
+    (acc, cur) => [
+      ...acc,
+      ...cur.options.map((l) => ({
+        value: `${cur.value} - ${l.value}`,
+        label: l.label,
+      })),
+    ],
+    [],
+  ).find((l) => l.value === label)?.label;
+};

@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "sol-tracker",
+    "name": "Clio",
     "slug": "sol-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "sol-tracker",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",

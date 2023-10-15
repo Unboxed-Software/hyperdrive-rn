@@ -3,22 +3,23 @@ import { request } from '@services/request';
 import { TokenResponse } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { useNotifications } from './NotificationProvider';
 
 import { UserType } from '@/types/user.types';
+import { set } from 'lodash';
 
 WebBrowser.maybeCompleteAuthSession();
 
 const AuthContext = React.createContext<{
-  signIn: () => void;
+  signIn: () => Promise<void>;
   signOut: () => void;
   user?: UserType;
   token?: string;
   isLoading: boolean;
 }>({
-  signIn: () => {},
+  signIn: () => Promise.resolve(),
   signOut: () => {},
   isLoading: true,
 });
@@ -40,30 +41,46 @@ export function SessionProvider(props: { children: ReactNode }) {
     iosClientId: process.env.EXPO_PUBLIC_IOS_GOOGLE_CLIENT_ID,
   });
 
-  const [[isLoading, session], setSession] = useStorageState('session');
+  const [[isStorageLoading, session], setSession] = useStorageState('session');
+  const [shouldFetchSession, setShouldFetchSession] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { setEmail, setUserId } = useNotifications();
+  const { setEmail, setLoggedInUser } = useNotifications();
 
   const { user, token } = useMemo(() => {
     if (session) {
       const parsed = JSON.parse(session);
       if (parsed.user as UserType) {
         setEmail(parsed.user.email);
-        setUserId(parsed.user.id.toString());
+        setLoggedInUser(parsed.user.id.toString());
       }
 
       return parsed;
+    } else {
+      // When a session is removed it usually triggers another call to
+      // `fetchSession` but we want to skip that
+      setShouldFetchSession(false);
+      return { user: undefined, token: undefined };
     }
-    return { user: undefined, token: undefined };
-  }, [session, setEmail, setUserId]);
+  }, [session, setEmail, setLoggedInUser]);
 
   useEffect(() => {
-    if (!isLoading && !session && response?.type === 'success' && response.authentication) {
-      fetchSession(response.authentication);
+    // When a session is removed it usually triggers another call to
+    // `fetchSession` but we want to skip that only one time
+    if (!shouldFetchSession) {
+      setShouldFetchSession(true);
+      return;
     }
-  }, [response, session, isLoading]);
+
+    if (!isLoading && !session && response?.type === 'success' && response.authentication) {
+      fetchSession(response.authentication).then(() => {
+        setShouldFetchSession(false);
+      });
+    }
+  }, [response, session, isStorageLoading]);
 
   const fetchSession = async (data: TokenResponse) => {
+    setIsLoading(true);
     try {
       const res = await request('mobile-auth/google', {
         method: 'POST',
@@ -73,16 +90,20 @@ export function SessionProvider(props: { children: ReactNode }) {
       setSession(JSON.stringify(res));
     } catch (error: unknown) {
       // Add your own error handler here
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          promptAsync();
+        signIn: async () => {
+          await promptAsync();
         },
         signOut: () => {
+          setLoggedInUser(null);
           setSession(null);
         },
         user,

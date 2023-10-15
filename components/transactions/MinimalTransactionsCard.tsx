@@ -1,44 +1,53 @@
-import { Box, Heading, Pressable, Text, VStack } from '@gluestack-ui/themed';
+import { Badge, BadgeText, HStack, Heading, Pressable, Text, VStack } from '@gluestack-ui/themed';
 import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { Link } from 'expo-router';
 import React, { useMemo } from 'react';
 
-import { getLabelOptions } from '@/services/transactions/transactions.service';
+import { getLabelBadge } from '@/services/transactions/transactions.service';
 import { MinimalTransaction } from '@/types/transactions.types';
+import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 type IProps = MinimalTransaction;
 
-const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, createdAt, customLabels }) => {
-  const labelOptions = useMemo(() => getLabelOptions(), []);
+const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, createdAt, customLabels, description }) => {
+  const label = useMemo(() => {
+    const label = customLabels[0];
+    if (label) {
+      return getLabelBadge(label);
+    } else {
+      return undefined;
+    }
+  }, []);
 
-  const customLabel = labelOptions.find((l) => l.value === customLabels[0])?.label || 'Not Labeled';
   return (
-    <Box borderColor="$borderLight200" borderRadius="$lg" borderWidth="$1" mb="$4" overflow="hidden">
-      <Link href={`/transactions/${id}`} asChild>
-        <Pressable>
-          <VStack px="$6" pt="$4" pb="$6">
-            <Box mb="$3">
-              <Heading fontSize="$md" mb="$0">
-                Address: {virtualAddress.title}
-              </Heading>
-              <Text fontSize="$xs" mt="$0">
-                {virtualAddress.address}
-              </Text>
-            </Box>
-            <Box flexDirection="row" alignItems="center">
-              <Heading fontSize="$md" mr="$2">
-                Label:
-              </Heading>
-              <Text fontSize="$sm">{customLabel}</Text>
-            </Box>
-            <Text my="$1.5" fontSize="$xs" isTruncated>
-              {dayjs(createdAt).format(DATE_FORMAT)}
-            </Text>
-            <Text color="$pink600">Show More...</Text>
-          </VStack>
-        </Pressable>
-      </Link>
-    </Box>
+    <Link href={`/transactions/${id}`} asChild>
+      <Pressable>
+        <VStack paddingEnd="$4" paddingVertical="$2">
+          <Heading fontSize="$md" color="$textLight300">
+            {virtualAddress.title}
+          </Heading>
+          <HStack paddingVertical="$2">
+            {label ? (
+              <Badge action="success" flexGrow={0}>
+                <BadgeText>{label}</BadgeText>
+              </Badge>
+            ) : (
+              <Badge action="error">
+                <BadgeText>Not Labeled</BadgeText>
+              </Badge>
+            )}
+          </HStack>
+          <Text color="$textLight400">
+            {replaceSolanaAddressesWithTruncated(
+              description.replace(virtualAddress.address, `'${virtualAddress.title}'`),
+            )}
+          </Text>
+          <Text pt="$1" fontSize="$xs" color="$textLight400">
+            {dayjs(createdAt).format(DATE_FORMAT)}
+          </Text>
+        </VStack>
+      </Pressable>
+    </Link>
   );
 };
 

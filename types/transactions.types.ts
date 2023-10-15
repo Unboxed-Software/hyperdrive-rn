@@ -18,6 +18,9 @@ export type Transaction = {
   createdAt: Date;
 };
 
-export type MinimalTransaction = Pick<Transaction, 'id' | 'createdAt' | 'customLabels' | 'customNote'> & {
+export type MinimalTransaction = Pick<
+  Transaction,
+  'id' | 'createdAt' | 'customLabels' | 'customNote' | 'description'
+> & {
   virtualAddress: Pick<VirtualAddress, 'title' | 'address'>;
 };
