@@ -1,13 +1,14 @@
-import { useNotifications } from '@/ctx/NotificationProvider';
-import { MinimalTransaction } from '@/types/transactions.types';
 import MinimalTransactionsCard from '@components/transactions/MinimalTransactionsCard';
-import { Divider, Heading, Spinner, VStack, View, useToken, FlatList } from '@gluestack-ui/themed';
+import { Divider, FlatList, Heading, Spinner, useToken, View, VStack } from '@gluestack-ui/themed';
 import { useTransactionsLoader } from '@services/transactions/useTransactionsLoader';
 import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { RefreshControl, StyleSheet } from 'react-native';
+
+import { useNotifications } from '@/ctx/NotificationProvider';
+import { MinimalTransaction } from '@/types/transactions.types';
 
 export default function Transactions() {
-  const { transactionList, isLoading } = useTransactionsLoader();
+  const { transactionList, isLoading, refetch, isRefetching } = useTransactionsLoader();
   const dividerColor = useToken('colors', 'trueGray700');
 
   const { promptForNotificationAccessIfNeeded } = useNotifications();
@@ -43,6 +44,7 @@ export default function Transactions() {
               </Heading>
             </VStack>
           }
+          refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
         />
       )}
     </View>

@@ -18,6 +18,7 @@ const useTransactionsLoader = () => {
     error,
     isLoading,
     refetch,
+    isRefetching,
   } = useQuery({
     queryKey: [transactionListCacheKey],
     queryFn: getTransactions,
@@ -59,6 +60,7 @@ const useTransactionsLoader = () => {
     isLoading,
     onUpdateCustomLabels: handleUpdateCustomLabels.mutate,
     refetch,
+    isRefetching,
   };
 };
 
