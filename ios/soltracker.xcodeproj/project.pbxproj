@@ -21,12 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1A38515D2ADB99C300573C10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1A17E2652AD87C6400124936;
-			remoteInfo = OneSignalNotificationServiceExtension;
+		1A17E26C2AD87C6500124936 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A17E2652AD87C6400124936 /* OneSignalNotificationServiceExtension */;
+			targetProxy = 1A2EA0712ADC54090060E6F3 /* PBXContainerItemProxy */;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -97,6 +95,8 @@
 		0402F2860B43428B99859168 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -104,6 +104,8 @@
 		0FD8C3F5582D468EA79887FC /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -131,6 +133,8 @@
 				1A17E2732AD87E1300124936 /* OneSignalNotificationServiceExtensionRelease.entitlements */,
 				1A17E2682AD87C6500124936 /* NotificationService.swift */,
 				1A17E26A2AD87C6500124936 /* Info.plist */,
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -138,6 +142,17 @@
 		1B53534CA8304512B084E236 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
+			);
+			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		20A7A7A883224C75A664BCED /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -145,6 +160,8 @@
 		2121EC811CB347E4B063E87B /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -166,6 +183,8 @@
 				6591ABBF39FB485B9B22CC9E /* OneSignalNotificationServiceExtension.entitlements */,
 				E689837DBD1641AA88DC6A8B /* OneSignalNotificationServiceExtension-Info.plist */,
 				2647B7318F6D4442B5338617 /* NotificationService.m */,
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -195,6 +214,9 @@
 				1B53534CA8304512B084E236 /* OneSignalNotificationServiceExtension */,
 				0FD8C3F5582D468EA79887FC /* OneSignalNotificationServiceExtension */,
 				D3AA5C0064E24DD9927E1F3D /* OneSignalNotificationServiceExtension */,
+				20A7A7A883224C75A664BCED /* OneSignalNotificationServiceExtension */,
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -213,6 +235,8 @@
 		860B33B0505D453195E1B3FE /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -228,6 +252,8 @@
 		A10F500F08074B668164D6C0 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -244,6 +270,8 @@
 		D3AA5C0064E24DD9927E1F3D /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -255,6 +283,8 @@
 				7A4D352CD337FB3A3BF06240 /* Pods-soltracker.release.xcconfig */,
 				94AAA0F805D1C63E980B50BD /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
 				FBDBA584080F54141F979D0E /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
+				40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */,
+				1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -265,6 +295,30 @@
 				92DBD88DE9BF7D494EA9DA96 /* soltracker */,
 			);
 			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		40F139FFC99944A4AECFD6EB /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				73581BD1C8C04253BD8D6135 /* NotificationService.h */,
+				6591ABBF39FB485B9B22CC9E /* OneSignalNotificationServiceExtension.entitlements */,
+				E689837DBD1641AA88DC6A8B /* OneSignalNotificationServiceExtension-Info.plist */,
+				2647B7318F6D4442B5338617 /* NotificationService.m */,
+			);
+			name = OneSignalNotificationServiceExtension;
+			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		1619BAA36EA742838493B569 /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				73581BD1C8C04253BD8D6135 /* NotificationService.h */,
+				6591ABBF39FB485B9B22CC9E /* OneSignalNotificationServiceExtension.entitlements */,
+				E689837DBD1641AA88DC6A8B /* OneSignalNotificationServiceExtension-Info.plist */,
+				2647B7318F6D4442B5338617 /* NotificationService.m */,
+			);
+			name = OneSignalNotificationServiceExtension;
+			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -552,7 +606,7 @@
 		1A17E26C2AD87C6500124936 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1A17E2652AD87C6400124936 /* OneSignalNotificationServiceExtension */;
-			targetProxy = 1A38515D2ADB99C300573C10 /* PBXContainerItemProxy */;
+			targetProxy = 1A2EA0712ADC54090060E6F3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -565,7 +619,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = soltracker/soltracker.entitlements;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 2HKCZL2J7X;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -588,7 +642,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.beunboxed.sol-tracker";
-				PRODUCT_NAME = Clio;
+				PRODUCT_NAME = "Clio";
 				SWIFT_OBJC_BRIDGING_HEADER = "soltracker/soltracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -605,7 +659,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = soltracker/soltrackerRelease.entitlements;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 2HKCZL2J7X;
 				INFOPLIST_FILE = soltracker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Clio;
@@ -623,7 +677,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.beunboxed.sol-tracker";
-				PRODUCT_NAME = Clio;
+				PRODUCT_NAME = "Clio";
 				SWIFT_OBJC_BRIDGING_HEADER = "soltracker/soltracker-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

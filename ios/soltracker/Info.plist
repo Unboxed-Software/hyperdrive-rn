@@ -60,6 +60,9 @@
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
 	</array>
 	<key>OneSignal_app_groups_key</key>
 	<string>group.com.beunboxed.sol-tracker.onesignal</string>
