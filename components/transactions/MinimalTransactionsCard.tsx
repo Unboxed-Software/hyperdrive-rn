@@ -38,9 +38,10 @@ const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, created
             )}
           </HStack>
           <Text color="$textLight400">
-            {replaceSolanaAddressesWithTruncated(
-              description.replace(virtualAddress.address, `'${virtualAddress.title}'`),
-            )}
+            {description &&
+              replaceSolanaAddressesWithTruncated(
+                description.replace(virtualAddress.address, `'${virtualAddress.title}'`),
+              )}
           </Text>
           <Text pt="$1" fontSize="$xs" color="$textLight400">
             {dayjs(createdAt).format(DATE_FORMAT)}
