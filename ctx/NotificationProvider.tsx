@@ -1,6 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import React, { ReactNode, useEffect } from 'react';
 import { LogLevel, OneSignal } from 'react-native-onesignal';
+
+import { transactionListCacheKey } from '@/services/transactions/useTransactionsLoader';
 
 const NotificationContext = React.createContext<{
   promptForNotificationAccessIfNeeded: () => Promise<void>;
@@ -19,6 +22,8 @@ export function useNotifications() {
 export function NotificationProvider(props: { children: ReactNode }) {
   const router = useRouter();
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     initializeOneSignal();
   }, []);
@@ -27,7 +32,16 @@ export function NotificationProvider(props: { children: ReactNode }) {
     OneSignal.Debug.setLogLevel(LogLevel.Verbose);
     OneSignal.initialize('65d8f7ae-8eb7-4ed1-ac06-4683f3bc44eb');
 
+    OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
+      event.preventDefault();
+
+      queryClient.invalidateQueries({ queryKey: [transactionListCacheKey] });
+
+      event.getNotification().display();
+    });
+
     OneSignal.Notifications.addEventListener('click', (event) => {
+      queryClient.invalidateQueries({ queryKey: [transactionListCacheKey] });
       if (event?.notification?.additionalData) {
         const { txId } = event.notification.additionalData as { txId: string };
         if (txId) router.push(`/transactions/${txId}`);

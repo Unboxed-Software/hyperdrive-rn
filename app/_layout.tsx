@@ -53,16 +53,16 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <NotificationProvider>
-      <GluestackUIProvider config={config.theme}>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <NotificationProvider>
+        <GluestackUIProvider config={config.theme}>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <SessionProvider>
               <Slot />
             </SessionProvider>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </GluestackUIProvider>
-    </NotificationProvider>
+          </ThemeProvider>
+        </GluestackUIProvider>
+      </NotificationProvider>
+    </QueryClientProvider>
   );
 }
