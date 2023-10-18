@@ -8,7 +8,6 @@ import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNotifications } from './NotificationProvider';
 
 import { UserType } from '@/types/user.types';
-import { set } from 'lodash';
 
 WebBrowser.maybeCompleteAuthSession();
 

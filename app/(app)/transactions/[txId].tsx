@@ -3,37 +3,37 @@ import {
   Alert,
   AlertIcon,
   AlertText,
+  Box,
+  Divider,
   Heading,
   InfoIcon,
   ScrollView,
   Spinner,
   Text,
-  VStack,
   View,
-  Divider,
-  Box,
+  VStack,
 } from '@gluestack-ui/themed';
 import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { useTransactionLoader } from '@services/transactions/useTransactionLoader';
 import { Link, useLocalSearchParams } from 'expo-router';
-import { StyleSheet } from 'react-native';
-import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { KeyboardAvoidingView, Platform } from 'react-native';
 
 import CustomTransactionNote from '@/components/transactions/CustomTransactionNote';
+import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 export default function Transactions() {
   const { txId } = useLocalSearchParams<{ txId: string }>();
 
   const { transaction, isLoading, onUpdateCustomLabels, onUpdateCustomNote } = useTransactionLoader(parseInt(txId, 10));
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <View flex={1} justifyContent="center">
         <Spinner size="large" />
       </View>
     );
+  }
 
   return transaction ? (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -88,7 +88,12 @@ export default function Transactions() {
             <Box paddingEnd="$2" paddingVertical="$2">
               <CustomTransactionNote
                 note={transaction.customNote}
-                onUpdateNote={(note) => onUpdateCustomNote({ txId: transaction.id, customNote: note })}
+                onUpdateNote={(note) =>
+                  onUpdateCustomNote({
+                    txId: transaction.id,
+                    customNote: note,
+                  })
+                }
               />
             </Box>
             <Divider bgColor="$trueGray700" />
@@ -129,7 +134,6 @@ const styles = StyleSheet.create({
 });
 
 function truncateMiddle(text: string): string {
-  const length = text.length;
   const firstHalf = text.slice(0, 4);
   const secondHalf = text.slice(-4);
   return `${firstHalf}...${secondHalf}`;

@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
 import { SessionProvider } from '../ctx/auth';
+
 import { NotificationProvider } from '@/ctx/NotificationProvider';
 
 const queryClient = new QueryClient();

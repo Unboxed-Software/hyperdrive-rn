@@ -1,19 +1,11 @@
-import { Divider, FlatList, HStack, Heading, Spinner, VStack, View } from '@gluestack-ui/themed';
-import { useVirtualAddressesLoader } from '@/services/virtualAddress/useVirtualAddresses';
-import { VirtualAddress } from '@/types/virtualAddress.types';
-import VirtualAddressCard from '@/components/virtualAddress/VirtualAddressCard';
+import { Divider, FlatList, Heading, HStack, Spinner, View, VStack } from '@gluestack-ui/themed';
+
 import CreateVirtualAddressButton from '@/components/virtualAddress/CreateVirtualAddressButton';
-import { useTransactionsLoader } from '@/services/transactions/useTransactionsLoader';
+import VirtualAddressCard from '@/components/virtualAddress/VirtualAddressCard';
+import { useVirtualAddressesLoader } from '@/services/virtualAddress/useVirtualAddresses';
 
 export default function Accounts() {
   const { virtualAddressList, isLoading, onDelete, onToggleIsActive, onCreate } = useVirtualAddressesLoader();
-  const { refetch: refetchTransactions } = useTransactionsLoader();
-
-  const handleAddButtonPressed = (input: { fields: Pick<VirtualAddress, 'title' | 'description' | 'address'> }) => {
-    onCreate(input).then(() => {
-      refetchTransactions();
-    });
-  };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -22,7 +14,7 @@ export default function Accounts() {
       ) : (
         <FlatList
           width="100%"
-          data={virtualAddressList as VirtualAddress[]}
+          data={virtualAddressList}
           renderItem={({ item }) => (
             <VStack paddingLeft="$4">
               <VirtualAddressCard
@@ -32,7 +24,12 @@ export default function Accounts() {
                 addressText={item.address}
                 isActive={item.isActive}
                 onDelete={() => onDelete(item.id)}
-                onToggleActive={() => onToggleIsActive({ vAddressId: item.id, currentIsActive: item.isActive })}
+                onToggleActive={() =>
+                  onToggleIsActive({
+                    vAddressId: item.id,
+                    currentIsActive: item.isActive,
+                  })
+                }
               />
               <Divider bgColor="$trueGray700" />
             </VStack>

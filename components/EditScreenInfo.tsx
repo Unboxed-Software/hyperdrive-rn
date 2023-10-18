@@ -1,11 +1,11 @@
 import Colors from '@consts/Colors';
+import { View } from '@gluestack-ui/themed';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ExternalLink } from './ExternalLink';
 import { MonoText } from './StyledText';
 import { Text } from './Themed';
-import { View } from '@gluestack-ui/themed';
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (

@@ -1,18 +1,4 @@
-import {
-  Badge,
-  BadgeText,
-  Box,
-  Button,
-  ButtonGroup,
-  ButtonIcon,
-  Center,
-  Heading,
-  HStack,
-  Switch,
-  Text,
-  TrashIcon,
-  VStack,
-} from '@gluestack-ui/themed';
+import { Badge, BadgeText, Heading, HStack, Switch, VStack } from '@gluestack-ui/themed';
 
 import { VirtualAddress } from '@/types/virtualAddress.types';
 import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
@@ -26,14 +12,7 @@ interface Props {
   onToggleActive: () => void;
 }
 
-export default function VirtualAddressCard({
-  title,
-  addressText,
-  description,
-  isActive,
-  onDelete,
-  onToggleActive,
-}: Props) {
+export default function VirtualAddressCard({ title, addressText, isActive, onToggleActive }: Props) {
   return (
     <HStack paddingVertical="$2">
       <VStack flexGrow={1} alignItems="flex-start" justifyContent="center" space="sm">

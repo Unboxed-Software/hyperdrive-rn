@@ -1,10 +1,10 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Heading, Spinner, VStack, View } from '@gluestack-ui/themed';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSession } from '../ctx/auth';
-import { Heading, Spinner, VStack, View } from '@gluestack-ui/themed';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignIn() {
   const { signIn, token } = useSession();
