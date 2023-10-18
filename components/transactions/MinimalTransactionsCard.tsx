@@ -1,4 +1,4 @@
-import { Badge, BadgeText, HStack, Heading, Pressable, Text, VStack } from '@gluestack-ui/themed';
+import { Badge, BadgeText, Heading, HStack, Pressable, Text, VStack } from '@gluestack-ui/themed';
 import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { Link } from 'expo-router';
 import React, { useMemo } from 'react';
@@ -11,13 +11,13 @@ type IProps = MinimalTransaction;
 
 const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, createdAt, customLabels, description }) => {
   const label = useMemo(() => {
-    const label = customLabels[0];
-    if (label) {
-      return getLabelBadge(label);
+    const currentLabel = customLabels[0];
+    if (currentLabel) {
+      return getLabelBadge(currentLabel);
     } else {
       return undefined;
     }
-  }, []);
+  }, [customLabels]);
 
   return (
     <Link href={`/transactions/${id}`} asChild>
