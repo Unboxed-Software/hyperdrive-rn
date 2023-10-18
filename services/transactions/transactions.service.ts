@@ -4,7 +4,7 @@ import { MinimalTransaction, Transaction } from '@/types/transactions.types';
 import { VirtualAddress } from '@/types/virtualAddress.types';
 
 export const getTransactions = async () => {
-  const res = await request<{ transactions: MinimalTransaction[] }>('/me/transactions');
+  const res = await request<{ transactions: MinimalTransaction[] }>('me/transactions');
   return res.transactions;
 };
 
@@ -13,7 +13,7 @@ export const getTransactionById = async (txId: MinimalTransaction['id']) => {
     transaction: Transaction & {
       virtualAddress: Pick<VirtualAddress, 'address' | 'title' | 'id'>;
     };
-  }>(`/me/transactions/${txId}`);
+  }>(`me/transactions/${txId}`);
   return res.transaction;
 };
 
@@ -24,7 +24,7 @@ export const updateCustomLabels = async ({
   txId: Transaction['id'];
   customLabels: Transaction['customLabels'];
 }) => {
-  const res = await request<{ transaction: MinimalTransaction }>(`/me/transactions/${txId}`, {
+  const res = await request<{ transaction: MinimalTransaction }>(`me/transactions/${txId}`, {
     data: { customLabels },
     method: 'PUT',
   });
@@ -38,7 +38,7 @@ export const updateCustomNote = async ({
   txId: Transaction['id'];
   customNote: Transaction['customNote'];
 }) => {
-  const res = await request<{ transaction: MinimalTransaction }>(`/me/transactions/${txId}`, {
+  const res = await request<{ transaction: MinimalTransaction }>(`me/transactions/${txId}`, {
     data: { customNote },
     method: 'PUT',
   });
