@@ -41,3 +41,17 @@ export const deleteVirtualAddress = async (vAddressId: VirtualAddress['id']) => 
   });
   return res.virtualAddress;
 };
+
+export const editVirtualAddress = async ({
+  id,
+  fields,
+}: {
+  id: VirtualAddress['id'];
+  fields: Pick<VirtualAddress, 'title' | 'description'>;
+}) => {
+  const res = await request<{ virtualAddress: VirtualAddress }>(`me/virtual-addresses/${id}`, {
+    method: 'PUT',
+    data: { fields },
+  });
+  return res.virtualAddress;
+};

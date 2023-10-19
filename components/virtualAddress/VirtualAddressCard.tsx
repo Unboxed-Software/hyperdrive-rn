@@ -1,4 +1,19 @@
-import { Badge, BadgeText, Heading, HStack, Switch, VStack } from '@gluestack-ui/themed';
+import {
+  Badge,
+  BadgeText,
+  Box,
+  Button,
+  ButtonIcon,
+  EditIcon,
+  Heading,
+  HStack,
+  Switch,
+  TrashIcon,
+  VStack,
+} from '@gluestack-ui/themed';
+import { useState } from 'react';
+
+import EditVirtualAddressModal from './EditVirtualAddressModal';
 
 import { VirtualAddress } from '@/types/virtualAddress.types';
 import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
@@ -10,9 +25,19 @@ interface Props {
   isActive: VirtualAddress['isActive'];
   onDelete: () => void;
   onToggleActive: () => void;
+  onEdit: (_f: { fields: Pick<VirtualAddress, 'title' | 'description'> }) => Promise<unknown>;
 }
 
-export default function VirtualAddressCard({ title, addressText, isActive, onToggleActive }: Props) {
+export default function VirtualAddressCard({
+  title,
+  addressText,
+  isActive,
+  onToggleActive,
+  onDelete,
+  description,
+  onEdit,
+}: Props) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   return (
     <HStack paddingVertical="$2">
       <VStack flexGrow={1} alignItems="flex-start" justifyContent="center" space="sm">
@@ -29,7 +54,19 @@ export default function VirtualAddressCard({ title, addressText, isActive, onTog
           </Badge>
         )}
       </VStack>
-      <Switch alignSelf="center" size="sm" onToggle={onToggleActive} value={isActive} />
+      <Box flexDirection="row" alignItems="center">
+        <Switch alignSelf="center" size="sm" onToggle={onToggleActive} value={isActive} />
+        <Button size="sm" mx="$1" onPress={() => setIsEditModalOpen(true)}>
+          <ButtonIcon as={EditIcon} />
+        </Button>
+      </Box>
+      <EditVirtualAddressModal
+        onClose={() => setIsEditModalOpen(false)}
+        title={title}
+        description={description || ''}
+        onSubmit={onEdit}
+        isOpen={isEditModalOpen}
+      />
     </HStack>
   );
 }

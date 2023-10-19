@@ -155,7 +155,13 @@ const CreateVirtualAddressButton: React.FC<Props> = ({ onCreate }) => {
             >
               <ButtonText>Submit</ButtonText>
             </Button>
-            <Button size="sm" action="negative" borderWidth="$0" onPress={handleCancel}>
+            <Button
+              isDisabled={formik.isSubmitting}
+              size="sm"
+              action="negative"
+              borderWidth="$0"
+              onPress={handleCancel}
+            >
               <ButtonText>Cancel</ButtonText>
             </Button>
           </ModalFooter>

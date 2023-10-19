@@ -5,7 +5,7 @@ import VirtualAddressCard from '@/components/virtualAddress/VirtualAddressCard';
 import { useVirtualAddressesLoader } from '@/services/virtualAddress/useVirtualAddresses';
 
 export default function Accounts() {
-  const { virtualAddressList, isLoading, onDelete, onToggleIsActive, onCreate } = useVirtualAddressesLoader();
+  const { virtualAddressList, isLoading, onDelete, onToggleIsActive, onCreate, onEdit } = useVirtualAddressesLoader();
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -15,7 +15,7 @@ export default function Accounts() {
         <FlatList
           width="100%"
           data={virtualAddressList}
-          renderItem={({ item }) => (
+          renderItem={({ item }: any) => (
             <VStack paddingLeft="$4">
               <VirtualAddressCard
                 key={item.id}
@@ -30,6 +30,7 @@ export default function Accounts() {
                     currentIsActive: item.isActive,
                   })
                 }
+                onEdit={({ fields }) => onEdit({ id: item.id, fields })}
               />
               <Divider bgColor="$trueGray700" />
             </VStack>

@@ -7,6 +7,7 @@ import { cloneDeep } from 'lodash';
 import {
   creatVirtualAddress,
   deleteVirtualAddress,
+  editVirtualAddress,
   getVirtualAddress,
   toggleIsActiveVirtualAddress,
 } from './virtualAddress.service';
@@ -71,6 +72,13 @@ const useVirtualAddressesLoader = () => {
     errorMessage: 'Failed to remove your Virtual Address.',
   });
 
+  const editMutation = useMutationSimplified({
+    queryKey: [vAddressCacheKey],
+    mutationFn: editVirtualAddress,
+    successMessage: 'Virtual Address edited Successfully',
+    errorMessage: 'Failed to edit your Virtual Address.',
+  });
+
   return {
     virtualAddressList: virtualAddressList || [],
     error,
@@ -78,6 +86,7 @@ const useVirtualAddressesLoader = () => {
     onToggleIsActive: toggleIsActive.mutate,
     onCreate: createMutation.mutateAsync,
     onDelete: deleteMutation.mutate,
+    onEdit: editMutation.mutateAsync,
   };
 };
 
