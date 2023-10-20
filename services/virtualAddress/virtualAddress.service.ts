@@ -35,7 +35,7 @@ export const creatVirtualAddress = async ({
   return res.virtualAddress;
 };
 
-export const deleteVirtualAddress = async (vAddressId: VirtualAddress['id']) => {
+export const archiveVirtualAddress = async (vAddressId: VirtualAddress['id']) => {
   const res = await request<{ virtualAddress: VirtualAddress }>(`me/virtual-addresses/${vAddressId}`, {
     method: 'DELETE',
   });

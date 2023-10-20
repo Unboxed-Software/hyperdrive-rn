@@ -5,8 +5,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { cloneDeep } from 'lodash';
 
 import {
+  archiveVirtualAddress,
   creatVirtualAddress,
-  deleteVirtualAddress,
   editVirtualAddress,
   getVirtualAddress,
   toggleIsActiveVirtualAddress,
@@ -65,9 +65,9 @@ const useVirtualAddressesLoader = () => {
     errorMessage: 'Failed to add the Virtual Address.',
   });
 
-  const deleteMutation = useMutationSimplified({
+  const archiveMutation = useMutationSimplified({
     queryKey: [vAddressCacheKey],
-    mutationFn: deleteVirtualAddress,
+    mutationFn: archiveVirtualAddress,
     successMessage: 'Virtual Address Removed Successfully',
     errorMessage: 'Failed to remove your Virtual Address.',
   });
@@ -85,7 +85,8 @@ const useVirtualAddressesLoader = () => {
     isLoading,
     onToggleIsActive: toggleIsActive.mutate,
     onCreate: createMutation.mutateAsync,
-    onDelete: deleteMutation.mutate,
+    onArchive: archiveMutation.mutate,
+    isArchiving: archiveMutation.isLoading,
     onEdit: editMutation.mutateAsync,
   };
 };

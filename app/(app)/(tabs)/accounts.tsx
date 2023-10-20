@@ -5,7 +5,8 @@ import VirtualAddressCard from '@/components/virtualAddress/VirtualAddressCard';
 import { useVirtualAddressesLoader } from '@/services/virtualAddress/useVirtualAddresses';
 
 export default function Accounts() {
-  const { virtualAddressList, isLoading, onDelete, onToggleIsActive, onCreate, onEdit } = useVirtualAddressesLoader();
+  const { virtualAddressList, isLoading, onArchive, onToggleIsActive, onCreate, onEdit, isArchiving } =
+    useVirtualAddressesLoader();
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -23,7 +24,8 @@ export default function Accounts() {
                 description={item.description}
                 addressText={item.address}
                 isActive={item.isActive}
-                onDelete={() => onDelete(item.id)}
+                onArchive={() => onArchive(item.id)}
+                isArchiving={isArchiving}
                 onToggleActive={() =>
                   onToggleIsActive({
                     vAddressId: item.id,
