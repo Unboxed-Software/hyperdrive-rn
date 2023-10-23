@@ -4,11 +4,13 @@ import { useTransactionsLoader } from '@services/transactions/useTransactionsLoa
 import { useEffect } from 'react';
 import { RefreshControl } from 'react-native';
 
+import TransactionsListFooter from '@/components/transactions/TransactionsListFooter';
 import { useNotifications } from '@/ctx/NotificationProvider';
 import { MinimalTransaction } from '@/types/transactions.types';
 
 export default function Transactions() {
-  const { transactionList, isLoading, refetch, isRefetching } = useTransactionsLoader();
+  const { transactionList, isLoading, refetch, isRefetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useTransactionsLoader();
 
   const { promptForNotificationAccessIfNeeded } = useNotifications();
 
@@ -23,7 +25,7 @@ export default function Transactions() {
       ) : (
         <FlatList
           width="100%"
-          data={transactionList}
+          data={transactionList?.pages.flatMap((page) => page.items) || []}
           renderItem={({ item }) => (
             <VStack paddingLeft="$4">
               <MinimalTransactionsCard key={(item as MinimalTransaction).id} {...(item as MinimalTransaction)} />
@@ -44,6 +46,14 @@ export default function Transactions() {
             </VStack>
           }
           refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
+          ListFooterComponent={() => (
+            <TransactionsListFooter isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />
+          )}
         />
       )}
     </View>
