@@ -1,7 +1,7 @@
 import { SimplifiedToast } from '@components/SimplifiedToast';
 import { useToast } from '@gluestack-ui/themed';
 import useMutationSimplified from '@hooks/useMutationSimplified';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { getTransactions, updateCustomLabels } from './transactions.service';
@@ -19,9 +19,15 @@ const useTransactionsLoader = () => {
     isLoading,
     refetch,
     isRefetching,
-  } = useQuery({
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: [transactionListCacheKey],
     queryFn: getTransactions,
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasMore ? { after: lastPage.nextCursor } : undefined;
+    },
     onError: () => {
       toast.show({
         render: ({ id }) => (
@@ -55,12 +61,15 @@ const useTransactionsLoader = () => {
   });
 
   return {
-    transactionList: transactionList || [],
+    transactionList,
     error,
     isLoading,
     onUpdateCustomLabels: handleUpdateCustomLabels.mutate,
     refetch,
     isRefetching,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
   };
 };
 
