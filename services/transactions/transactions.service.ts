@@ -52,111 +52,51 @@ export const updateCustomNote = async ({
   return res.transaction;
 };
 
-const CUSTOM_LABEL_OPTIONS_GROUPED = [
+export const CUSTOM_LABEL_OPTIONS_GROUPED = [
   {
-    label: 'Trading',
-    value: 'trading',
+    title: 'Trading',
+    options: ['Coin Swap / Exchange', 'Coin Buy', 'Coin Sell', 'NFT Swap', 'NFT Buy / Mint', 'NFT Sell / Burn'],
+  },
+  {
+    title: 'Friends & Businesses',
+    options: ['Receive', 'Payment', 'Donation', 'Gift'],
+  },
+  {
+    title: 'Perpetuals / Futures',
+    options: ['Open Position', 'Close Position'],
+  },
+  {
+    title: 'Staking & LP',
     options: [
-      { value: 'coinSwap', label: 'Coin Swap / Exchange' },
-      { value: 'coinBuy', label: 'Coin Buy' },
-      { value: 'coinSell', label: 'Coin Sell' },
-      { value: 'nftSwap', label: 'NFT Swap' },
-      { value: 'nftMint', label: 'NFT Buy / Mint' },
-      { value: 'nftBurn', label: 'NFT Sell / Burn' },
+      'Staking Deposit',
+      'Staking Swap',
+      'Claim Rewards',
+      'Unstaking Withdraw',
+      'Unstaking Swap',
+      'Add Liquidity',
+      'Remove Liquidity',
     ],
   },
   {
-    label: 'Friends & Businesses',
-    value: 'friends&Businesses',
-    options: [
-      { value: 'receive', label: 'Receive' },
-      { value: 'payment', label: 'Payment' },
-      { value: 'donation', label: 'Donation' },
-      { value: 'gift', label: 'Gift' },
-    ],
+    title: 'Income',
+    options: ['Airdrop', 'Income', 'Rewards', 'Mining Income', 'Spam'],
   },
   {
-    label: 'Perpetuals / Futures',
-    options: [
-      { value: 'openPosition', label: 'Open Position' },
-      { value: 'closePosition', label: 'Close Position' },
-    ],
+    title: 'Loans',
+    options: ['Lend Deposit', 'Lend Swap', 'Unlend', 'Unlend Swap', 'Borrow', 'Repay'],
   },
   {
-    label: 'Staking & LP',
-    value: 'staking&LP',
-    options: [
-      { value: 'stakingDeposit', label: 'Staking Deposit' },
-      { value: 'stakingSwap', label: 'Staking Swap' },
-      { value: 'claimRewards', label: 'Claim Rewards' },
-      { value: 'unstakingWithdraw', label: 'Unstaking Withdraw' },
-      { value: 'unstakingSwap', label: 'Unstaking Swap' },
-      { value: 'addLiquidity', label: 'Add Liquidity' },
-      { value: 'removeLiquidity', label: 'Remove Liquidity' },
-    ],
+    title: 'Transfers',
+    options: ['Bridging', 'Wallet Transfer'],
   },
   {
-    label: 'Income',
-    value: 'income',
-    options: [
-      { value: 'airdrop', label: 'Airdrop' },
-      { value: 'income', label: 'Income' },
-      { value: 'rewards', label: 'Rewards' },
-      { value: 'miningIncome', label: 'Mining Income' },
-      { value: 'spam', label: 'Spam' },
-    ],
-  },
-  {
-    label: 'Loans',
-    value: 'loans',
-    options: [
-      { value: 'lendDeposit', label: 'Lend Deposit' },
-      { value: 'lendSwap', label: 'Lend Swap' },
-      { value: 'unlend', label: 'Unlend' },
-      { value: 'unlendSwap', label: 'Unlend Swap' },
-      { value: 'borrow', label: 'Borrow' },
-      { value: 'repay', label: 'Repay' },
-    ],
-  },
-  {
-    label: 'Transfers',
-    value: 'transfers',
-    options: [
-      { value: 'bridging', label: 'Bridging' },
-      { value: 'walletTransfer', label: 'Wallet Transfer' },
-    ],
-  },
-  {
-    label: 'Other',
-    value: 'other',
-    options: [
-      { value: 'nonTaxable', label: 'Non-Taxable' },
-      { value: 'feeExpenseDeduction', label: 'Fee Expense Deduction' },
-    ],
+    title: 'Other',
+    options: ['Non-Taxable', 'Fee Expense Deduction'],
   },
 ];
 
-export const getLabelOptions = () =>
-  CUSTOM_LABEL_OPTIONS_GROUPED.reduce<{ label: string; value: string }[]>(
-    (acc, cur) => [
-      ...acc,
-      ...cur.options.map((l) => ({
-        value: `${cur.value} - ${l.value}`,
-        label: `${cur.label} - ${l.label}`,
-      })),
-    ],
-    [],
-  );
-
 export const getLabelBadge = (label: string): string | undefined => {
-  return CUSTOM_LABEL_OPTIONS_GROUPED.reduce<{ label: string; value: string }[]>(
-    (acc, cur) => [
-      ...acc,
-      ...cur.options.map((l) => ({
-        value: `${cur.value} - ${l.value}`,
-        label: l.label,
-      })),
-    ],
-    [],
-  ).find((l) => l.value === label)?.label;
+  return CUSTOM_LABEL_OPTIONS_GROUPED.map((g) => g.options)
+    .flat()
+    .find((l) => l === label);
 };
