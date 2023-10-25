@@ -34,7 +34,7 @@ const CustomLabelsContainer: React.FC<Props> = ({
 
   return (
     <View marginBottom="$4">
-      <Heading color="$textLight100">Custom Titles</Heading>
+      <Heading color="$textLight100">Custom Labels</Heading>
 
       <VStack space="sm">
         {labels?.map((l) => {
