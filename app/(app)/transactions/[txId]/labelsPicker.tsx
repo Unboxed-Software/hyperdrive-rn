@@ -1,4 +1,4 @@
-import { Divider, Heading, Pressable, ScrollView, Text, View, VStack } from '@gluestack-ui/themed';
+import { Heading, ScrollView, View, VStack } from '@gluestack-ui/themed';
 import { useLocalSearchParams } from 'expo-router';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,7 +11,15 @@ import { useTransactionLoader } from '@/services/transactions/useTransactionLoad
 export default function Transactions() {
   const { txId } = useLocalSearchParams<{ txId: string }>();
 
-  const { customLabels, defaultLabels, isCustomLabelsLoading, customLabelsError } = useLabelsLoader();
+  const {
+    customLabels,
+    defaultLabels,
+    isCustomLabelsLoading,
+    customLabelsError,
+    onCreateCustomLabel,
+    isCreatingCustomLabel,
+    onDeleteCustomLabel,
+  } = useLabelsLoader();
 
   const { transaction, onUpdateLabels, isUpdatingLabel } = useTransactionLoader(parseInt(txId, 10));
 
@@ -25,6 +33,9 @@ export default function Transactions() {
               isLoading={isCustomLabelsLoading}
               error={customLabelsError}
               activeLabel={transaction?.labels[0]}
+              onDelete={onDeleteCustomLabel}
+              onCreate={(title) => onCreateCustomLabel({ title })}
+              isCreatingLabel={isCreatingCustomLabel}
               onUpdateLabels={(label) =>
                 onUpdateLabels({
                   txId: parseInt(txId, 10),
@@ -35,23 +46,26 @@ export default function Transactions() {
             {defaultLabels.map((g) => (
               <View key={g.title} marginBottom="$4">
                 <Heading color="$textLight100">{g.title}</Heading>
-                {g.options.map((l) => {
-                  const isActive = l === transaction?.labels[0];
-                  return (
-                    <LabelCard
-                      key={l}
-                      onPress={() =>
-                        onUpdateLabels({
-                          txId: parseInt(txId, 10),
-                          labels: isActive ? [] : [l],
-                        })
-                      }
-                      title={l}
-                      isActive={isActive}
-                      isDisabled={isUpdatingLabel}
-                    />
-                  );
-                })}
+
+                <VStack space="sm">
+                  {g.options.map((l) => {
+                    const isActive = l === transaction?.labels[0];
+                    return (
+                      <LabelCard
+                        key={l}
+                        onPress={() =>
+                          onUpdateLabels({
+                            txId: parseInt(txId, 10),
+                            labels: isActive ? [] : [l],
+                          })
+                        }
+                        title={l}
+                        isActive={isActive}
+                        isDisabled={isUpdatingLabel}
+                      />
+                    );
+                  })}
+                </VStack>
               </View>
             ))}
           </VStack>

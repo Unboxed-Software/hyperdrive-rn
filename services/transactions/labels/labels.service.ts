@@ -7,6 +7,21 @@ export const getCustomLabels = async () => {
   return res.customLabels;
 };
 
+export const deleteCustomLabel = async ({ labelId }: { labelId: CustomLabel['id'] }) => {
+  const res = await request<{ customLabel: CustomLabel }>(`me/custom-labels/${labelId}`, {
+    method: 'Delete',
+  });
+  return res.customLabel;
+};
+
+export const addCustomLabel = async (fields: Pick<CustomLabel, 'title' | 'description'>) => {
+  const res = await request<{ customLabel: CustomLabel }>(`me/custom-labels/`, {
+    method: 'POST',
+    data: { fields },
+  });
+  return res.customLabel;
+};
+
 export const DEFAULT_TRANSACTION_LABEL_OPTIONS = [
   {
     title: 'Trading',
