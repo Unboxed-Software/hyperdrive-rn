@@ -21,7 +21,7 @@ export default function Transactions() {
               <View key={g.title} marginBottom="$4">
                 <Heading color="$textLight100">{g.title}</Heading>
                 {g.options.map((l) => {
-                  if (l === transaction?.customLabels[0]) {
+                  if (l === transaction?.labels[0]) {
                     return (
                       <View key={l} borderWidth="$1" borderColor="$success300">
                         <Pressable
@@ -30,7 +30,7 @@ export default function Transactions() {
                           onPress={() =>
                             onUpdateLabels({
                               txId: parseInt(txId, 10),
-                              customLabels: [],
+                              labels: [],
                             })
                           }
                         >
@@ -51,7 +51,7 @@ export default function Transactions() {
                         onPress={() =>
                           onUpdateLabels({
                             txId: parseInt(txId, 10),
-                            customLabels: [l],
+                            labels: [l],
                           })
                         }
                       >

@@ -26,13 +26,13 @@ export const getTransactionById = async (txId: MinimalTransaction['id']) => {
 
 export const updateCustomLabels = async ({
   txId,
-  customLabels,
+  labels,
 }: {
   txId: Transaction['id'];
-  customLabels: Transaction['customLabels'];
+  labels: Transaction['labels'];
 }) => {
   const res = await request<{ transaction: MinimalTransaction }>(`me/transactions/${txId}`, {
-    data: { customLabels },
+    data: { labels },
     method: 'PUT',
   });
   return res.transaction;
@@ -94,9 +94,3 @@ export const CUSTOM_LABEL_OPTIONS_GROUPED = [
     options: ['Non-Taxable', 'Fee Expense Deduction'],
   },
 ];
-
-export const getLabelBadge = (label: string): string | undefined => {
-  return CUSTOM_LABEL_OPTIONS_GROUPED.map((g) => g.options)
-    .flat()
-    .find((l) => l === label);
-};
