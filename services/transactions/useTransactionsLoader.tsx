@@ -26,7 +26,12 @@ const useTransactionsLoader = () => {
     queryKey: [transactionListCacheKey],
     queryFn: getTransactions,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasMore ? { after: lastPage.nextCursor } : undefined;
+      return lastPage.hasMore
+        ? {
+            after_id: lastPage.nextCursor.id,
+            after_timestamp: lastPage.nextCursor.timestamp,
+          }
+        : undefined;
     },
     onError: () => {
       toast.show({
