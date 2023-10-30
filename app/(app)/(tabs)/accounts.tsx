@@ -16,6 +16,7 @@ export default function Accounts() {
         <FlatList
           width="100%"
           data={virtualAddressList}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           renderItem={({ item }: any) => (
             <VStack paddingLeft="$4">
               <VirtualAddressCard

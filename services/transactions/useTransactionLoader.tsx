@@ -36,12 +36,12 @@ const useTransactionLoader = (txId: Transaction['id']) => {
     queryKey: [transactionListCacheKey, txId],
     mutationFn: updateCustomLabels,
     invalidateOnSuccess: false,
-    onMutate: ({ customLabels }) => {
+    onMutate: ({ labels }) => {
       const previousData = queryClient.getQueryData<Transaction>(queryKey);
 
       queryClient.setQueryData<Transaction>(queryKey, (currentData) => {
         if (currentData) {
-          return { ...currentData, customLabels };
+          return { ...currentData, labels };
         }
         return currentData;
       });

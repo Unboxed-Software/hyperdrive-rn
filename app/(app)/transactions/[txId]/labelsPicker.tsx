@@ -1,15 +1,26 @@
-import { Divider, Heading, Pressable, ScrollView, Text, View, VStack } from '@gluestack-ui/themed';
+import { Heading, ScrollView, View, VStack } from '@gluestack-ui/themed';
 import { useLocalSearchParams } from 'expo-router';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useLabelsLoader } from '@/services/transactions/useLabelsLoader';
+import CustomLabelsContainer from '@/components/labels/CustomLabelsContainer';
+import LabelCard from '@/components/labels/LabelCard';
+import { useLabelsLoader } from '@/services/transactions/labels/useLabelsLoader';
 import { useTransactionLoader } from '@/services/transactions/useTransactionLoader';
 
 export default function Transactions() {
   const { txId } = useLocalSearchParams<{ txId: string }>();
 
-  const { labels } = useLabelsLoader();
+  const {
+    customLabels,
+    defaultLabels,
+    isCustomLabelsLoading,
+    customLabelsError,
+    onCreateCustomLabel,
+    isCreatingCustomLabel,
+    onDeleteCustomLabel,
+  } = useLabelsLoader();
+
   const { transaction, onUpdateLabels, isUpdatingLabel } = useTransactionLoader(parseInt(txId, 10));
 
   return (
@@ -17,57 +28,44 @@ export default function Transactions() {
       <SafeAreaView style={{ width: '100%' }}>
         <ScrollView>
           <VStack paddingStart="$4">
-            {labels.map((g) => (
+            <CustomLabelsContainer
+              labels={customLabels}
+              isLoading={isCustomLabelsLoading}
+              error={customLabelsError}
+              activeLabel={transaction?.labels[0]}
+              onDelete={onDeleteCustomLabel}
+              onCreate={(title) => onCreateCustomLabel({ title })}
+              isCreatingLabel={isCreatingCustomLabel}
+              onUpdateLabels={(label) =>
+                onUpdateLabels({
+                  txId: parseInt(txId, 10),
+                  labels: label ? [label] : [],
+                })
+              }
+            />
+            {defaultLabels.map((g) => (
               <View key={g.title} marginBottom="$4">
                 <Heading color="$textLight100">{g.title}</Heading>
-                {g.options.map((l) => {
-                  if (l === transaction?.customLabels[0]) {
-                    return (
-                      <View key={l} borderWidth="$1" borderColor="$success300">
-                        <Pressable
-                          paddingVertical="$2"
-                          disabled={isUpdatingLabel}
-                          onPress={() =>
-                            onUpdateLabels({
-                              txId: parseInt(txId, 10),
-                              customLabels: [],
-                            })
-                          }
-                        >
-                          <Text key={l} color="$success400" bold fontSize="$sm" paddingStart="$2">
-                            {l}
-                          </Text>
-                        </Pressable>
-                        <Divider bgColor="$trueGray900" />
-                      </View>
-                    );
-                  }
 
-                  return (
-                    <View key={l} borderWidth="$0" borderColor="$success300">
-                      <Pressable
-                        paddingVertical="$2"
-                        disabled={isUpdatingLabel}
+                <VStack space="sm">
+                  {g.options.map((l) => {
+                    const isActive = l === transaction?.labels[0];
+                    return (
+                      <LabelCard
+                        key={l}
                         onPress={() =>
                           onUpdateLabels({
                             txId: parseInt(txId, 10),
-                            customLabels: [l],
+                            labels: isActive ? [] : [l],
                           })
                         }
-                      >
-                        <Text
-                          key={l}
-                          color={isUpdatingLabel ? '$textLight400' : '$textLight100'}
-                          fontSize="$sm"
-                          paddingStart="$2"
-                        >
-                          {l}
-                        </Text>
-                      </Pressable>
-                      <Divider bgColor="$trueGray900" />
-                    </View>
-                  );
-                })}
+                        title={l}
+                        isActive={isActive}
+                        isDisabled={isUpdatingLabel}
+                      />
+                    );
+                  })}
+                </VStack>
               </View>
             ))}
           </VStack>
