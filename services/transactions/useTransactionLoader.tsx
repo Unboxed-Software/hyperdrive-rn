@@ -3,7 +3,7 @@ import { useToast } from '@gluestack-ui/themed';
 import useMutationSimplified from '@hooks/useMutationSimplified';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getTransactionById, updateCustomLabels, updateCustomNote } from './transactions.service';
+import { getTransactionById, updateCustomNote, updateLabel } from './transactions.service';
 import { transactionListCacheKey } from './useTransactionsLoader';
 
 import { Transaction } from '@/types/transactions.types';
@@ -32,16 +32,19 @@ const useTransactionLoader = (txId: Transaction['id']) => {
 
   const queryClient = useQueryClient();
 
-  const handleUpdateCustomLabels = useMutationSimplified({
+  const handleUpdateTransactionLabel = useMutationSimplified({
     queryKey: [transactionListCacheKey, txId],
-    mutationFn: updateCustomLabels,
+    mutationFn: updateLabel,
     invalidateOnSuccess: false,
-    onMutate: ({ labels }) => {
+    onMutate: ({ labelTitle, labelId }) => {
       const previousData = queryClient.getQueryData<Transaction>(queryKey);
 
       queryClient.setQueryData<Transaction>(queryKey, (currentData) => {
         if (currentData) {
-          return { ...currentData, labels };
+          return {
+            ...currentData,
+            label: labelId ? { id: labelId, title: labelTitle } : null,
+          };
         }
         return currentData;
       });
@@ -80,8 +83,8 @@ const useTransactionLoader = (txId: Transaction['id']) => {
     transaction,
     error,
     isLoading,
-    onUpdateLabels: handleUpdateCustomLabels.mutate,
-    isUpdatingLabel: handleUpdateCustomLabels.isLoading,
+    onUpdateTransactionLabel: handleUpdateTransactionLabel.mutate,
+    isUpdatingLabel: handleUpdateTransactionLabel.isLoading,
     onUpdateCustomNote: handleUpdateCustomNote.mutate,
   };
 };

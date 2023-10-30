@@ -1,27 +1,23 @@
 import { useToast } from '@gluestack-ui/themed';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { cloneDeep } from 'lodash';
 
-import {
-  addCustomLabel,
-  DEFAULT_TRANSACTION_LABEL_OPTIONS,
-  deleteCustomLabel,
-  getCustomLabels,
-} from './labels.service';
+import { addLabel, deleteLabel, getLabels } from './labels.service';
 
 import { SimplifiedToast } from '@/components/SimplifiedToast';
 import useMutationSimplified from '@/hooks/useMutationSimplified';
-import { CustomLabel } from '@/types/labels.types';
+import { LabelsCacheType } from '@/types/labels.types';
 
-const customLabelsCacheKey = 'customLabels';
+const labelsCacheKey = 'labels';
 
 const useLabelsLoader = () => {
   const toast = useToast();
 
-  const queryKey = [customLabelsCacheKey];
+  const queryKey = [labelsCacheKey];
 
   const { data, isLoading, error } = useQuery({
     queryKey,
-    queryFn: getCustomLabels,
+    queryFn: getLabels,
     onError: () => {
       toast.show({
         render: ({ id }) => (
@@ -33,35 +29,37 @@ const useLabelsLoader = () => {
 
   const queryClient = useQueryClient();
 
-  const handleCreateCustomLabel = useMutationSimplified({
+  const handleCreateLabel = useMutationSimplified({
     queryKey,
-    mutationFn: addCustomLabel,
+    mutationFn: addLabel,
     invalidateOnSuccess: false,
     onSuccess: (createdLabel) => {
-      queryClient.setQueryData<CustomLabel[]>(queryKey, (currentData) => {
+      queryClient.setQueryData<LabelsCacheType>(queryKey, (currentData) => {
         if (currentData) {
-          return [createdLabel, ...currentData];
+          const clone = cloneDeep(currentData);
+          clone?.userLabels.unshift(createdLabel);
+          return clone;
         }
         return currentData;
       });
     },
-    errorMessage: 'Failed to create new Custom Label.',
+    errorMessage: 'Failed to create new Label.',
   });
 
-  const handleDeleteCustomLabel = useMutationSimplified({
+  const handleDeleteLabel = useMutationSimplified({
     queryKey,
-    mutationFn: deleteCustomLabel,
-    errorMessage: 'Failed to create new Custom Label.',
+    mutationFn: deleteLabel,
+    errorMessage: 'Failed to delete the Label.',
   });
 
   return {
-    defaultLabels: DEFAULT_TRANSACTION_LABEL_OPTIONS,
-    customLabels: data,
-    isCustomLabelsLoading: isLoading,
-    customLabelsError: error ? "Couldn't get the custom labels" : '',
-    onCreateCustomLabel: handleCreateCustomLabel.mutate,
-    isCreatingCustomLabel: handleCreateCustomLabel.isLoading,
-    onDeleteCustomLabel: handleDeleteCustomLabel.mutate,
+    defaultLabels: data?.defaultLabelGroups,
+    userLabels: data?.userLabels,
+    isLoading,
+    labelsError: error ? "Couldn't get the labels" : '',
+    onCreateLabel: handleCreateLabel.mutate,
+    isCreatingLabel: handleCreateLabel.isLoading,
+    onDeleteLabel: handleDeleteLabel.mutate,
   };
 };
 

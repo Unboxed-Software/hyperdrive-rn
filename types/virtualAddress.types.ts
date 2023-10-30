@@ -7,3 +7,5 @@ export type VirtualAddress = {
   createdAt: Date;
   userId: number;
 };
+
+export type MinimalVirtualAddress = Pick<VirtualAddress, 'title' | 'id' | 'address'>;

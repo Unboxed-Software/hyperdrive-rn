@@ -5,7 +5,7 @@ import { MinimalTransaction } from '@/types/transactions.types';
 
 type Props = {
   note: MinimalTransaction['customNote'];
-  onUpdateNote: (_labels: MinimalTransaction['customNote']) => void;
+  onUpdateNote: (_note: MinimalTransaction['customNote']) => void;
 };
 
 const CustomTransactionNote: React.FC<Props> = ({ note, onUpdateNote }) => {

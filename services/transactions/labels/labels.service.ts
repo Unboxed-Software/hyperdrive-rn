@@ -1,66 +1,26 @@
 import { request } from '@services/request';
 
-import { CustomLabel } from '@/types/labels.types';
+import { Label, LabelGroupWithLabels, MinimalLabel } from '@/types/labels.types';
 
-export const getCustomLabels = async () => {
-  const res = await request<{ customLabels: CustomLabel[] }>(`me/custom-labels/`);
-  return res.customLabels;
+export const getLabels = async () => {
+  const res = await request<{
+    defaultLabelGroups: LabelGroupWithLabels[];
+    userLabels: MinimalLabel[];
+  }>(`me/labels/all`);
+  return res;
 };
 
-export const deleteCustomLabel = async ({ labelId }: { labelId: CustomLabel['id'] }) => {
-  const res = await request<{ customLabel: CustomLabel }>(`me/custom-labels/${labelId}`, {
+export const deleteLabel = async ({ labelId }: { labelId: Label['id'] }) => {
+  const res = await request<{ label: Label }>(`me/labels/user/${labelId}`, {
     method: 'Delete',
   });
-  return res.customLabel;
+  return res.label;
 };
 
-export const addCustomLabel = async (fields: Pick<CustomLabel, 'title' | 'description'>) => {
-  const res = await request<{ customLabel: CustomLabel }>(`me/custom-labels/`, {
+export const addLabel = async (fields: Pick<Label, 'title' | 'description'>) => {
+  const res = await request<{ label: Label }>(`me/labels/user`, {
     method: 'POST',
     data: { fields },
   });
-  return res.customLabel;
+  return res.label;
 };
-
-export const DEFAULT_TRANSACTION_LABEL_OPTIONS = [
-  {
-    title: 'Trading',
-    options: ['Coin Swap / Exchange', 'Coin Buy', 'Coin Sell', 'NFT Swap', 'NFT Buy / Mint', 'NFT Sell / Burn'],
-  },
-  {
-    title: 'Friends & Businesses',
-    options: ['Receive', 'Payment', 'Donation', 'Gift'],
-  },
-  {
-    title: 'Perpetuals / Futures',
-    options: ['Open Position', 'Close Position'],
-  },
-  {
-    title: 'Staking & LP',
-    options: [
-      'Staking Deposit',
-      'Staking Swap',
-      'Claim Rewards',
-      'Unstaking Withdraw',
-      'Unstaking Swap',
-      'Add Liquidity',
-      'Remove Liquidity',
-    ],
-  },
-  {
-    title: 'Income',
-    options: ['Airdrop', 'Income', 'Rewards', 'Mining Income', 'Spam'],
-  },
-  {
-    title: 'Loans',
-    options: ['Lend Deposit', 'Lend Swap', 'Unlend', 'Unlend Swap', 'Borrow', 'Repay'],
-  },
-  {
-    title: 'Transfers',
-    options: ['Bridging', 'Wallet Transfer'],
-  },
-  {
-    title: 'Other',
-    options: ['Non-Taxable', 'Fee Expense Deduction'],
-  },
-];
