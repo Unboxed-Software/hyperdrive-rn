@@ -8,7 +8,7 @@ import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 type IProps = MinimalTransaction;
 
-const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, createdAt, labels, description }) => {
+const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timestamp, labels, description }) => {
   return (
     <Link href={`/transactions/${id}`} asChild>
       <Pressable>
@@ -34,7 +34,7 @@ const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, created
               )}
           </Text>
           <Text pt="$1" fontSize="$xs" color="$textLight400">
-            {dayjs(createdAt).format(DATE_FORMAT)}
+            {dayjs.unix(timestamp).format(DATE_FORMAT)}
           </Text>
         </VStack>
       </Pressable>

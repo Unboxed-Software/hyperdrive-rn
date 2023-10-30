@@ -3,7 +3,14 @@ import { request } from '@services/request';
 import { MinimalTransaction, Transaction } from '@/types/transactions.types';
 import { VirtualAddress } from '@/types/virtualAddress.types';
 
-export const getTransactions = async ({ pageParam }: { pageParam?: { after: Transaction['id'] } }) => {
+export const getTransactions = async ({
+  pageParam,
+}: {
+  pageParam?: {
+    id: number;
+    timestamp: number;
+  };
+}) => {
   const res = await request<{ transactions: MinimalTransaction[] }>('me/transactions/paginated', {
     params: pageParam,
   });
@@ -11,7 +18,10 @@ export const getTransactions = async ({ pageParam }: { pageParam?: { after: Tran
   return {
     items: res.transactions,
     hasMore: res.transactions.length !== 0,
-    nextCursor: res.transactions[res.transactions.length - 1]?.id,
+    nextCursor: {
+      id: res.transactions[res.transactions.length - 1]?.id,
+      timestamp: res.transactions[res.transactions.length - 1]?.timestamp,
+    },
   };
 };
 
