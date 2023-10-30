@@ -37,7 +37,7 @@ elsif podfile_properties.key?('ios.flipper') then
   end
 end
 
-target 'soltracker' do
+target 'Clio' do
   use_expo_modules!
   config = use_native_modules!
 
@@ -87,5 +87,6 @@ target 'soltracker' do
 end
 
 target 'OneSignalNotificationServiceExtension' do
-  pod 'OneSignalXCFramework', '>= 5.0.0', '< 6.0'
+  pod 'OneSignalXCFramework', '>= 5.0', '< 6.0'
+  use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
 end

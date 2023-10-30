@@ -1,4 +1,3 @@
-import CustomTransactionLabels from '@components/transactions/CustomTransactionLabels';
 import {
   Alert,
   AlertIcon,
@@ -7,6 +6,7 @@ import {
   Divider,
   Heading,
   InfoIcon,
+  Pressable,
   ScrollView,
   Spinner,
   Text,
@@ -25,7 +25,7 @@ import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 export default function Transactions() {
   const { txId } = useLocalSearchParams<{ txId: string }>();
 
-  const { transaction, isLoading, onUpdateCustomLabels, onUpdateCustomNote } = useTransactionLoader(parseInt(txId, 10));
+  const { transaction, isLoading, onUpdateCustomNote } = useTransactionLoader(parseInt(txId, 10));
 
   if (isLoading) {
     return (
@@ -74,14 +74,22 @@ export default function Transactions() {
             </Heading>
             <Divider bgColor="$trueGray700" />
 
-            <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4" pt="$2">
-              Label:
-            </Text>
-            <CustomTransactionLabels
-              labels={transaction.customLabels}
-              onUpdateLabels={(customLabels) => onUpdateCustomLabels({ customLabels, txId: transaction.id })}
-            />
+            <Link href={`/transactions/${txId}/labelsPicker`} asChild>
+              <Pressable>
+                <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4" pt="$2">
+                  Label:
+                </Text>
+                {transaction.customLabels[0] ? (
+                  <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
+                    {transaction.customLabels[0]}
+                  </Heading>
+                ) : (
+                  <Text>Select an item...</Text>
+                )}
+              </Pressable>
+            </Link>
             <Divider bgColor="$trueGray700" />
+
             <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4" pt="$2">
               Notes:
             </Text>

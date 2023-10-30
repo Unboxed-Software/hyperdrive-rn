@@ -80,7 +80,8 @@ const useTransactionLoader = (txId: Transaction['id']) => {
     transaction,
     error,
     isLoading,
-    onUpdateCustomLabels: handleUpdateCustomLabels.mutate,
+    onUpdateLabels: handleUpdateCustomLabels.mutate,
+    isUpdatingLabel: handleUpdateCustomLabels.isLoading,
     onUpdateCustomNote: handleUpdateCustomNote.mutate,
   };
 };
