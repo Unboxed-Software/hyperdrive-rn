@@ -1,24 +1,14 @@
 import { Badge, BadgeText, Heading, HStack, Pressable, Text, VStack } from '@gluestack-ui/themed';
 import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { Link } from 'expo-router';
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import { getLabelBadge } from '@/services/transactions/transactions.service';
 import { MinimalTransaction } from '@/types/transactions.types';
 import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 type IProps = MinimalTransaction;
 
-const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, createdAt, customLabels, description }) => {
-  const label = useMemo(() => {
-    const currentLabel = customLabels[0];
-    if (currentLabel) {
-      return getLabelBadge(currentLabel);
-    } else {
-      return undefined;
-    }
-  }, [customLabels]);
-
+const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timestamp, labels, description }) => {
   return (
     <Link href={`/transactions/${id}`} asChild>
       <Pressable>
@@ -27,9 +17,9 @@ const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, created
             {virtualAddress.title}
           </Heading>
           <HStack paddingVertical="$2">
-            {label ? (
+            {labels[0] ? (
               <Badge action="success" flexGrow={0}>
-                <BadgeText>{label}</BadgeText>
+                <BadgeText>{labels[0]}</BadgeText>
               </Badge>
             ) : (
               <Badge action="error">
@@ -44,7 +34,7 @@ const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, created
               )}
           </Text>
           <Text pt="$1" fontSize="$xs" color="$textLight400">
-            {dayjs(createdAt).format(DATE_FORMAT)}
+            {dayjs.unix(timestamp).format(DATE_FORMAT)}
           </Text>
         </VStack>
       </Pressable>

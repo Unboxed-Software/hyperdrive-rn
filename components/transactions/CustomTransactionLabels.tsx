@@ -4,7 +4,7 @@ import React from 'react';
 import { MinimalTransaction } from '@/types/transactions.types';
 
 type Props = {
-  labels: MinimalTransaction['customLabels'];
+  labels: MinimalTransaction['labels'];
 };
 
 const CustomTransactionLabels: React.FC<Props> = ({ labels }) => {

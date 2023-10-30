@@ -5,7 +5,7 @@ export type Transaction = {
   userId: number;
   rawTransactionId: number;
   virtualAddressId: number;
-  customLabels: string[];
+  labels: string[];
   customNote?: string;
   description: string;
   type: string;
@@ -18,9 +18,6 @@ export type Transaction = {
   createdAt: Date;
 };
 
-export type MinimalTransaction = Pick<
-  Transaction,
-  'id' | 'createdAt' | 'customLabels' | 'customNote' | 'description'
-> & {
+export type MinimalTransaction = Pick<Transaction, 'id' | 'timestamp' | 'labels' | 'customNote' | 'description'> & {
   virtualAddress: Pick<VirtualAddress, 'title' | 'address'>;
 };

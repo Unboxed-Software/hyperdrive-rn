@@ -36,6 +36,7 @@ export function useSession() {
 }
 
 export function SessionProvider(props: { children: ReactNode }) {
+  // eslint-disable-next-line no-unused-vars
   const [_request, response, promptAsync] = Google.useAuthRequest({
     iosClientId: process.env.EXPO_PUBLIC_IOS_GOOGLE_CLIENT_ID,
   });

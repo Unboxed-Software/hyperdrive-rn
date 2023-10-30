@@ -26,7 +26,12 @@ const useTransactionsLoader = () => {
     queryKey: [transactionListCacheKey],
     queryFn: getTransactions,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasMore ? { after: lastPage.nextCursor } : undefined;
+      return lastPage.hasMore
+        ? {
+            after_id: lastPage.nextCursor.id,
+            after_timestamp: lastPage.nextCursor.timestamp,
+          }
+        : undefined;
     },
     onError: () => {
       toast.show({
@@ -43,14 +48,14 @@ const useTransactionsLoader = () => {
     queryKey: [transactionListCacheKey],
     mutationFn: updateCustomLabels,
     invalidateOnSuccess: false,
-    onMutate: ({ txId, customLabels }) => {
+    onMutate: ({ txId, labels }) => {
       const previousData = queryClient.getQueryData<MinimalTransaction[]>([transactionListCacheKey]);
 
       queryClient.setQueryData<MinimalTransaction[]>([transactionListCacheKey], (currentData) => {
         const labelsClone = cloneDeep(currentData);
         const label = labelsClone?.find((va) => va.id === txId);
         if (label) {
-          label.customLabels = customLabels;
+          label.labels = labels;
         }
         return labelsClone;
       });

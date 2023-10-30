@@ -3,7 +3,14 @@ import { request } from '@services/request';
 import { MinimalTransaction, Transaction } from '@/types/transactions.types';
 import { VirtualAddress } from '@/types/virtualAddress.types';
 
-export const getTransactions = async ({ pageParam }: { pageParam?: { after: Transaction['id'] } }) => {
+export const getTransactions = async ({
+  pageParam,
+}: {
+  pageParam?: {
+    id: number;
+    timestamp: number;
+  };
+}) => {
   const res = await request<{ transactions: MinimalTransaction[] }>('me/transactions/paginated', {
     params: pageParam,
   });
@@ -11,7 +18,10 @@ export const getTransactions = async ({ pageParam }: { pageParam?: { after: Tran
   return {
     items: res.transactions,
     hasMore: res.transactions.length !== 0,
-    nextCursor: res.transactions[res.transactions.length - 1]?.id,
+    nextCursor: {
+      id: res.transactions[res.transactions.length - 1]?.id,
+      timestamp: res.transactions[res.transactions.length - 1]?.timestamp,
+    },
   };
 };
 
@@ -26,13 +36,13 @@ export const getTransactionById = async (txId: MinimalTransaction['id']) => {
 
 export const updateCustomLabels = async ({
   txId,
-  customLabels,
+  labels,
 }: {
   txId: Transaction['id'];
-  customLabels: Transaction['customLabels'];
+  labels: Transaction['labels'];
 }) => {
   const res = await request<{ transaction: MinimalTransaction }>(`me/transactions/${txId}`, {
-    data: { customLabels },
+    data: { labels },
     method: 'PUT',
   });
   return res.transaction;
@@ -50,53 +60,4 @@ export const updateCustomNote = async ({
     method: 'PUT',
   });
   return res.transaction;
-};
-
-export const CUSTOM_LABEL_OPTIONS_GROUPED = [
-  {
-    title: 'Trading',
-    options: ['Coin Swap / Exchange', 'Coin Buy', 'Coin Sell', 'NFT Swap', 'NFT Buy / Mint', 'NFT Sell / Burn'],
-  },
-  {
-    title: 'Friends & Businesses',
-    options: ['Receive', 'Payment', 'Donation', 'Gift'],
-  },
-  {
-    title: 'Perpetuals / Futures',
-    options: ['Open Position', 'Close Position'],
-  },
-  {
-    title: 'Staking & LP',
-    options: [
-      'Staking Deposit',
-      'Staking Swap',
-      'Claim Rewards',
-      'Unstaking Withdraw',
-      'Unstaking Swap',
-      'Add Liquidity',
-      'Remove Liquidity',
-    ],
-  },
-  {
-    title: 'Income',
-    options: ['Airdrop', 'Income', 'Rewards', 'Mining Income', 'Spam'],
-  },
-  {
-    title: 'Loans',
-    options: ['Lend Deposit', 'Lend Swap', 'Unlend', 'Unlend Swap', 'Borrow', 'Repay'],
-  },
-  {
-    title: 'Transfers',
-    options: ['Bridging', 'Wallet Transfer'],
-  },
-  {
-    title: 'Other',
-    options: ['Non-Taxable', 'Fee Expense Deduction'],
-  },
-];
-
-export const getLabelBadge = (label: string): string | undefined => {
-  return CUSTOM_LABEL_OPTIONS_GROUPED.map((g) => g.options)
-    .flat()
-    .find((l) => l === label);
 };

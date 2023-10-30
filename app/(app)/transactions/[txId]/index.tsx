@@ -44,7 +44,7 @@ export default function Transactions() {
               Transaction {truncateMiddle(transaction.signature)}
             </Heading>
             <Heading textAlign="center" color="$textLight200" size="md" paddingHorizontal="$4" pb="$8">
-              {dayjs(transaction.createdAt).format(DATE_FORMAT)}
+              {dayjs.unix(transaction.timestamp).format(DATE_FORMAT)}
             </Heading>
             <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4">
               Account:
@@ -79,9 +79,9 @@ export default function Transactions() {
                 <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4" pt="$2">
                   Label:
                 </Text>
-                {transaction.customLabels[0] ? (
+                {transaction.labels[0] ? (
                   <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
-                    {transaction.customLabels[0]}
+                    {transaction.labels[0]}
                   </Heading>
                 ) : (
                   <Text>Select an item...</Text>
