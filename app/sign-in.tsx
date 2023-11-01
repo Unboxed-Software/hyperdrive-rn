@@ -62,7 +62,7 @@ export default function SignIn() {
           {loading ? (
             <Spinner size="large" />
           ) : (
-            <HStack alignItems="center" space="4xl">
+            <VStack alignItems="center" space="4xl">
               <FontAwesome.Button name="google" onPress={() => handleSignIn()}>
                 Sign in with Google
               </FontAwesome.Button>
@@ -76,7 +76,7 @@ export default function SignIn() {
                 w="$10"
                 h="$10"
               />
-            </HStack>
+            </VStack>
           )}
         </VStack>
 
