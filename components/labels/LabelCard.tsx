@@ -2,10 +2,10 @@ import { Button, ButtonIcon, Pressable, Text, TrashIcon, View } from '@gluestack
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { CustomLabel } from '@/types/labels.types';
+import { Label } from '@/types/labels.types';
 
 type Props = {
-  title: CustomLabel['title'];
+  title: Label['title'];
   isActive?: boolean;
   isDisabled?: boolean;
   onPress: () => void;

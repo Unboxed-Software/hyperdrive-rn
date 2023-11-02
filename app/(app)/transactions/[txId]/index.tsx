@@ -79,9 +79,9 @@ export default function Transactions() {
                 <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4" pt="$2">
                   Label:
                 </Text>
-                {transaction.labels[0] ? (
+                {transaction.label ? (
                   <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
-                    {transaction.labels[0]}
+                    {transaction.label.title}
                   </Heading>
                 ) : (
                   <Text>Select an item...</Text>

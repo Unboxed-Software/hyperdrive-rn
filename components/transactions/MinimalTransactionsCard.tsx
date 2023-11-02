@@ -8,7 +8,7 @@ import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 type IProps = MinimalTransaction;
 
-const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timestamp, labels, description }) => {
+const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timestamp, label, description }) => {
   return (
     <Link href={`/transactions/${id}`} asChild>
       <Pressable>
@@ -17,9 +17,9 @@ const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timesta
             {virtualAddress.title}
           </Heading>
           <HStack paddingVertical="$2">
-            {labels[0] ? (
+            {label ? (
               <Badge action="success" flexGrow={0}>
-                <BadgeText>{labels[0]}</BadgeText>
+                <BadgeText>{label.title}</BadgeText>
               </Badge>
             ) : (
               <Badge action="error">

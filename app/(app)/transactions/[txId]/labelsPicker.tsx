@@ -1,65 +1,62 @@
-import { Heading, ScrollView, View, VStack } from '@gluestack-ui/themed';
+import { Heading, ScrollView, Spinner, View, VStack } from '@gluestack-ui/themed';
 import { useLocalSearchParams } from 'expo-router';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import CustomLabelsContainer from '@/components/labels/CustomLabelsContainer';
 import LabelCard from '@/components/labels/LabelCard';
+import UserLabelsContainer from '@/components/labels/UserLabelsContainer';
 import { useLabelsLoader } from '@/services/transactions/labels/useLabelsLoader';
 import { useTransactionLoader } from '@/services/transactions/useTransactionLoader';
 
 export default function Transactions() {
   const { txId } = useLocalSearchParams<{ txId: string }>();
 
-  const {
-    customLabels,
-    defaultLabels,
-    isCustomLabelsLoading,
-    customLabelsError,
-    onCreateCustomLabel,
-    isCreatingCustomLabel,
-    onDeleteCustomLabel,
-  } = useLabelsLoader();
+  const { userLabels, defaultLabels, isLoading, labelsError, onCreateLabel, isCreatingLabel, onDeleteLabel } =
+    useLabelsLoader();
 
-  const { transaction, onUpdateLabels, isUpdatingLabel } = useTransactionLoader(parseInt(txId, 10));
+  const { transaction, onUpdateTransactionLabel, isUpdatingLabel } = useTransactionLoader(parseInt(txId, 10));
+
+  if (isLoading) return <Spinner size="large" />;
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={{ width: '100%' }}>
         <ScrollView>
           <VStack paddingStart="$4">
-            <CustomLabelsContainer
-              labels={customLabels}
-              isLoading={isCustomLabelsLoading}
-              error={customLabelsError}
-              activeLabel={transaction?.labels[0]}
-              onDelete={onDeleteCustomLabel}
-              onCreate={(title) => onCreateCustomLabel({ title })}
-              isCreatingLabel={isCreatingCustomLabel}
-              onUpdateLabels={(label) =>
-                onUpdateLabels({
+            <UserLabelsContainer
+              labels={userLabels}
+              isLoading={isLoading}
+              error={labelsError}
+              activeLabel={transaction?.label}
+              onDelete={onDeleteLabel}
+              onCreate={(title) => onCreateLabel({ title })}
+              isCreatingLabel={isCreatingLabel}
+              onUpdateTransactionLabel={(label) =>
+                onUpdateTransactionLabel({
                   txId: parseInt(txId, 10),
-                  labels: label ? [label] : [],
+                  labelId: label ? label.id : null,
+                  labelTitle: label ? label.title : null,
                 })
               }
             />
-            {defaultLabels.map((g) => (
+            {defaultLabels!.map((g) => (
               <View key={g.title} marginBottom="$4">
                 <Heading color="$textLight100">{g.title}</Heading>
 
                 <VStack space="sm">
-                  {g.options.map((l) => {
-                    const isActive = l === transaction?.labels[0];
+                  {g.labels.map((l) => {
+                    const isActive = l.id === transaction?.label?.id;
                     return (
                       <LabelCard
-                        key={l}
+                        key={l.id}
                         onPress={() =>
-                          onUpdateLabels({
+                          onUpdateTransactionLabel({
                             txId: parseInt(txId, 10),
-                            labels: isActive ? [] : [l],
+                            labelId: isActive ? null : l.id,
+                            labelTitle: isActive ? null : l.title,
                           })
                         }
-                        title={l}
+                        title={l.title}
                         isActive={isActive}
                         isDisabled={isUpdatingLabel}
                       />

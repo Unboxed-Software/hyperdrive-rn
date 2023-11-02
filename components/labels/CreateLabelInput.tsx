@@ -2,15 +2,15 @@ import { AddIcon, Button, ButtonIcon, Input, InputField, Spinner, View } from '@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { CustomLabel } from '@/types/labels.types';
+import { Label } from '@/types/labels.types';
 
 type Props = {
-  onCreate: (_title: CustomLabel['title']) => void;
+  onCreate: (_title: Label['title']) => void;
   isCreatingLabel?: boolean;
   isDisabled?: boolean;
 };
 
-const CreateCustomLabelInput: React.FC<Props> = ({ onCreate, isDisabled, isCreatingLabel }) => {
+const CreateLabelInput: React.FC<Props> = ({ onCreate, isDisabled, isCreatingLabel }) => {
   const [value, setValue] = useState('');
 
   const handleSubmit = () => {
@@ -21,12 +21,7 @@ const CreateCustomLabelInput: React.FC<Props> = ({ onCreate, isDisabled, isCreat
   return (
     <View style={styles.container}>
       <Input size="sm" style={styles.input}>
-        <InputField
-          value={value}
-          color="$textLight100"
-          placeholder="Add a new Custom Label..."
-          onChangeText={setValue}
-        />
+        <InputField value={value} color="$textLight100" placeholder="Add a new  Label..." onChangeText={setValue} />
       </Input>
       <Button size="sm" onPress={handleSubmit} disabled={isDisabled || isCreatingLabel || value.trim() === ''}>
         {isCreatingLabel ? <Spinner size="small" color="$textLight100" /> : <ButtonIcon as={AddIcon} />}
@@ -48,4 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateCustomLabelInput;
+export default CreateLabelInput;

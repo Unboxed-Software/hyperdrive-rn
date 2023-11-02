@@ -4,7 +4,7 @@ import useMutationSimplified from '@hooks/useMutationSimplified';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { getTransactions, updateCustomLabels } from './transactions.service';
+import { getTransactions, updateLabel } from './transactions.service';
 
 import { MinimalTransaction } from '@/types/transactions.types';
 
@@ -44,20 +44,20 @@ const useTransactionsLoader = () => {
 
   const queryClient = useQueryClient();
 
-  const handleUpdateCustomLabels = useMutationSimplified({
+  const handleUpdateLabel = useMutationSimplified({
     queryKey: [transactionListCacheKey],
-    mutationFn: updateCustomLabels,
+    mutationFn: updateLabel,
     invalidateOnSuccess: false,
-    onMutate: ({ txId, labels }) => {
+    onMutate: ({ txId, labelId, labelTitle }) => {
       const previousData = queryClient.getQueryData<MinimalTransaction[]>([transactionListCacheKey]);
 
       queryClient.setQueryData<MinimalTransaction[]>([transactionListCacheKey], (currentData) => {
-        const labelsClone = cloneDeep(currentData);
-        const label = labelsClone?.find((va) => va.id === txId);
-        if (label) {
-          label.labels = labels;
+        const transactionsCloned = cloneDeep(currentData);
+        const transaction = transactionsCloned?.find((va) => va.id === txId);
+        if (transaction) {
+          transaction.Label = { id: labelId, title: labelTitle };
         }
-        return labelsClone;
+        return transactionsCloned;
       });
 
       return { previousData };
@@ -69,7 +69,7 @@ const useTransactionsLoader = () => {
     transactionList,
     error,
     isLoading,
-    onUpdateCustomLabels: handleUpdateCustomLabels.mutate,
+    onUpdateLabels: handleUpdateLabel.mutate,
     refetch,
     isRefetching,
     hasNextPage,

@@ -1,25 +1,26 @@
 import { Heading, Spinner, View, VStack } from '@gluestack-ui/themed';
 
-import CreateCustomLabelInput from './CreateCustomLabelInput';
+import CreateLabelInput from './CreateLabelInput';
 
 import LabelCard from '@/components/labels/LabelCard';
-import { CustomLabel } from '@/types/labels.types';
+import { MinimalLabel } from '@/types/labels.types';
+import { MinimalTransaction } from '@/types/transactions.types';
 
 type Props = {
-  labels?: CustomLabel[];
+  labels?: MinimalLabel[];
   isLoading?: boolean;
   error?: string;
-  onUpdateLabels: (_label: string | null) => void;
+  onUpdateTransactionLabel: (_label: MinimalTransaction['label']) => void;
   isDisabled?: boolean;
-  activeLabel?: CustomLabel['title'];
-  onDelete: (_: { labelId: CustomLabel['id'] }) => void;
-  onCreate: (_title: CustomLabel['title']) => void;
+  activeLabel?: MinimalTransaction['label'];
+  onDelete: (_: { labelId: MinimalLabel['id'] }) => void;
+  onCreate: (_title: MinimalLabel['title']) => void;
   isCreatingLabel?: boolean;
 };
 
-const CustomLabelsContainer: React.FC<Props> = ({
+const UserLabelsContainer: React.FC<Props> = ({
   labels,
-  onUpdateLabels,
+  onUpdateTransactionLabel,
   isDisabled,
   activeLabel,
   isLoading,
@@ -34,15 +35,15 @@ const CustomLabelsContainer: React.FC<Props> = ({
 
   return (
     <View marginBottom="$4">
-      <Heading color="$textLight100">Custom Labels</Heading>
+      <Heading color="$textLight100">Labels</Heading>
 
       <VStack space="sm">
         {labels?.map((l) => {
-          const isActive = l.title === activeLabel;
+          const isActive = l.id === activeLabel?.id;
           return (
             <LabelCard
               key={l.id}
-              onPress={() => onUpdateLabels(isActive ? null : l.title)}
+              onPress={() => onUpdateTransactionLabel(isActive ? null : l)}
               title={l.title}
               isActive={isActive}
               isDisabled={isDisabled}
@@ -51,10 +52,10 @@ const CustomLabelsContainer: React.FC<Props> = ({
             />
           );
         })}
-        <CreateCustomLabelInput onCreate={onCreate} isCreatingLabel={isCreatingLabel} />
+        <CreateLabelInput onCreate={onCreate} isCreatingLabel={isCreatingLabel} />
       </VStack>
     </View>
   );
 };
 
-export default CustomLabelsContainer;
+export default UserLabelsContainer;

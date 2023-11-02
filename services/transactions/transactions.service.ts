@@ -1,7 +1,8 @@
 import { request } from '@services/request';
 
+import { Label, MinimalLabel } from '@/types/labels.types';
 import { MinimalTransaction, Transaction } from '@/types/transactions.types';
-import { VirtualAddress } from '@/types/virtualAddress.types';
+import { MinimalVirtualAddress } from '@/types/virtualAddress.types';
 
 export const getTransactions = async ({
   pageParam,
@@ -28,21 +29,23 @@ export const getTransactions = async ({
 export const getTransactionById = async (txId: MinimalTransaction['id']) => {
   const res = await request<{
     transaction: Transaction & {
-      virtualAddress: Pick<VirtualAddress, 'address' | 'title' | 'id'>;
+      virtualAddress: MinimalVirtualAddress;
+      label: MinimalLabel;
     };
   }>(`me/transactions/${txId}`);
   return res.transaction;
 };
 
-export const updateCustomLabels = async ({
+export const updateLabel = async ({
   txId,
-  labels,
+  labelId,
 }: {
   txId: Transaction['id'];
-  labels: Transaction['labels'];
+  labelId: Transaction['labelId'] | null;
+  labelTitle: Label['title'] | null;
 }) => {
   const res = await request<{ transaction: MinimalTransaction }>(`me/transactions/${txId}`, {
-    data: { labels },
+    data: { labelId },
     method: 'PUT',
   });
   return res.transaction;
