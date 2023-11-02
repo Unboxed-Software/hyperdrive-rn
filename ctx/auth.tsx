@@ -7,14 +7,14 @@ import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { useNotifications } from './NotificationProvider';
 
-import { UserType } from '@/types/user.types';
+import { MinimalUserType } from '@/types/user.types';
 
 WebBrowser.maybeCompleteAuthSession();
 
 const AuthContext = React.createContext<{
   signIn: () => Promise<void>;
   signOut: () => void;
-  user?: UserType;
+  user?: MinimalUserType;
   token?: string;
   isLoading: boolean;
 }>({
@@ -50,7 +50,7 @@ export function SessionProvider(props: { children: ReactNode }) {
   const { user, token } = useMemo(() => {
     if (session) {
       const parsed = JSON.parse(session);
-      if (parsed.user as UserType) {
+      if (parsed.user as MinimalUserType) {
         setEmail(parsed.user.email);
         setLoggedInUser(parsed.user.id.toString());
       }

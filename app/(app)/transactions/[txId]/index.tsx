@@ -20,10 +20,12 @@ import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CustomTransactionNote from '@/components/transactions/CustomTransactionNote';
+import useSolanaExplorer from '@/services/solanaExplorer/useSolanaExplorer';
 import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 export default function Transactions() {
   const { txId } = useLocalSearchParams<{ txId: string }>();
+  const { explorerURLParser } = useSolanaExplorer();
 
   const { transaction, isLoading, onUpdateCustomNote } = useTransactionLoader(parseInt(txId, 10));
 
@@ -106,7 +108,7 @@ export default function Transactions() {
             </Box>
             <Divider bgColor="$trueGray700" />
             <Box paddingEnd="$4" paddingVertical="$2">
-              <Link href={`https://explorer.solana.com/tx/${transaction.signature}`}>
+              <Link href={explorerURLParser(transaction.signature)}>
                 <Text flexGrow={1} textAlign="right" color="$pink600">
                   View transaction on explorer
                 </Text>
