@@ -12,7 +12,7 @@ import { useStorageState } from '@/hooks/useStorageState';
 import { BASE_URL_STORAGE_KEY } from '@/services/request';
 
 export default function SignIn() {
-  const { signIn, token } = useSession();
+  const { signIn, token, isLoading: isSigningIn } = useSession();
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [counter, setCounter] = useState(0);
@@ -59,7 +59,7 @@ export default function SignIn() {
           <Heading size="md" textAlign="center" color="$textLight100" paddingBottom="$24">
             Manage Solana transactions on the go
           </Heading>
-          {loading ? (
+          {loading || isSigningIn ? (
             <Spinner size="large" />
           ) : (
             <VStack alignItems="center" space="4xl">
