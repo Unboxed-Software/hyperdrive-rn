@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Heading, HStack, Pressable, Spinner, VStack } from '@gluestack-ui/themed';
+import { Heading, Pressable, Spinner, VStack } from '@gluestack-ui/themed';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
