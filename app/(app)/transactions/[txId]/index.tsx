@@ -20,6 +20,7 @@ import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CustomTransactionNote from '@/components/transactions/CustomTransactionNote';
+import { useAliases } from '@/services/aliases/useAliases';
 import useSolanaExplorer from '@/services/solanaExplorer/useSolanaExplorer';
 import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
@@ -28,6 +29,8 @@ export default function Transactions() {
   const { explorerURLParser } = useSolanaExplorer();
 
   const { transaction, isLoading, onUpdateCustomNote } = useTransactionLoader(parseInt(txId, 10));
+
+  const { replaceSolanaAddressesWithAliasOrTruncate } = useAliases();
 
   if (isLoading) {
     return (
@@ -60,12 +63,7 @@ export default function Transactions() {
               Description:
             </Text>
             <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
-              {replaceSolanaAddressesWithTruncated(
-                transaction.description.replace(
-                  transaction.virtualAddress.address,
-                  `'${transaction.virtualAddress.title}'`,
-                ),
-              )}
+              {replaceSolanaAddressesWithAliasOrTruncate(transaction.description)}
             </Heading>
             <Divider bgColor="$trueGray700" />
             <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4">

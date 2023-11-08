@@ -3,12 +3,13 @@ import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { Link } from 'expo-router';
 import React from 'react';
 
+import { useAliases } from '@/services/aliases/useAliases';
 import { MinimalTransaction } from '@/types/transactions.types';
-import { replaceSolanaAddressesWithTruncated } from '@/utils/addresses';
 
 type IProps = MinimalTransaction;
 
 const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timestamp, label, description }) => {
+  const { replaceSolanaAddressesWithAliasOrTruncate } = useAliases();
   return (
     <Link href={`/transactions/${id}`} asChild>
       <Pressable>
@@ -27,12 +28,7 @@ const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timesta
               </Badge>
             )}
           </HStack>
-          <Text color="$textLight400">
-            {description &&
-              replaceSolanaAddressesWithTruncated(
-                description.replace(virtualAddress.address, `'${virtualAddress.title}'`),
-              )}
-          </Text>
+          <Text color="$textLight400">{description && replaceSolanaAddressesWithAliasOrTruncate(description)}</Text>
           <Text pt="$1" fontSize="$xs" color="$textLight400">
             {dayjs.unix(timestamp).format(DATE_FORMAT)}
           </Text>

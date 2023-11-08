@@ -1,4 +1,4 @@
-import { Divider, Heading, ScrollView, Spinner, View, VStack } from '@gluestack-ui/themed';
+import { Divider, ScrollView, Spinner, VStack } from '@gluestack-ui/themed';
 import { useAliasesLoader } from '@services/aliases/useAliasesLoader';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
