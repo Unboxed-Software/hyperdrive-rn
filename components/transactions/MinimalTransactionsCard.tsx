@@ -1,4 +1,4 @@
-import { Badge, BadgeText, Heading, HStack, Pressable, Text, VStack } from '@gluestack-ui/themed';
+import { Badge, BadgeText, Heading, HStack, Pressable, Text, View, VStack } from '@gluestack-ui/themed';
 import dayjs, { DATE_FORMAT } from '@services/dateTime';
 import { Link } from 'expo-router';
 import React from 'react';
@@ -28,7 +28,7 @@ const MinimalTransactionsCard: React.FC<IProps> = ({ virtualAddress, id, timesta
               </Badge>
             )}
           </HStack>
-          <Text color="$textLight400">{description && replaceSolanaAddressesWithAliasOrTruncate(description)}</Text>
+          <View>{description && replaceSolanaAddressesWithAliasOrTruncate(description)}</View>
           <Text pt="$1" fontSize="$xs" color="$textLight400">
             {dayjs.unix(timestamp).format(DATE_FORMAT)}
           </Text>

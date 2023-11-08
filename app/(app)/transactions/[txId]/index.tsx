@@ -62,9 +62,9 @@ export default function Transactions() {
             <Text color="$textLight400" bold fontSize="$sm" pt="$2" paddingEnd="$4">
               Description:
             </Text>
-            <Heading color="$textLight100" size="sm" pb="$2" paddingEnd="$4">
+            <View pb="$2" paddingEnd="$4">
               {replaceSolanaAddressesWithAliasOrTruncate(transaction.description)}
-            </Heading>
+            </View>
             <Divider bgColor="$trueGray700" />
             <Text color="$textLight400" bold fontSize="$sm" paddingEnd="$4">
               Transaction type:
