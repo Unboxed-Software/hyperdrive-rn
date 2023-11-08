@@ -7,11 +7,14 @@ import {
   Center,
   Divider,
   Heading,
+  Pressable,
   Spinner,
   Text,
+  View,
   VStack,
 } from '@gluestack-ui/themed';
 import useCurrentUserLoader from '@services/user/useCurrentUserLoader';
+import { Link } from 'expo-router';
 
 import { useSession } from '../../../ctx/auth';
 
@@ -49,6 +52,23 @@ export default function Settings() {
           <ButtonText>Sign Out</ButtonText>
         </Button>
       </Center>
+
+      <Link href="/aliases" asChild>
+        <Pressable
+          bg="$secondary800"
+          width="100%"
+          borderRadius="$lg"
+          padding="$3"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <View>
+            <Text color="$textLight100" bold fontSize="$sm" paddingStart="$2" isTruncated>
+              Mange Aliases
+            </Text>
+          </View>
+        </Pressable>
+      </Link>
 
       <Divider bg="$textDark500" w="90%" />
 
