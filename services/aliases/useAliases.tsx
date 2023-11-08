@@ -1,13 +1,15 @@
+import { HStack, Text } from '@gluestack-ui/themed';
 import base58 from 'bs58';
 import { keyBy, pick, unionBy } from 'lodash';
-import { useCallback, useMemo } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 
 import { useAliasesLoader } from './useAliasesLoader';
 import { useVirtualAddressesLoader } from '../virtualAddress/useVirtualAddresses';
 
+import InlineSolanaAddress from '@/components/aliases/InlineSolanaAddress';
 import { Alias, AliasMapItem } from '@/types/aliases.types';
 
-const SOLANA_ADDRESS_REGEX = /[1-9A-HJ-NP-Za-km-z]{32,44}/g;
+const SOLANA_ADDRESS_REGEX = /([1-9A-HJ-NP-Za-km-z]{32,44})/g;
 const SOLANA_ADDRESS_LENGTH = 32; // 32 bytes for Solana addresses
 
 const useAliases = () => {
@@ -27,20 +29,26 @@ const useAliases = () => {
   }, [aliases, virtualAddressList]);
 
   const replaceSolanaAddressesWithAliasOrTruncate = useCallback(
-    (string: string): string =>
-      string.replace(SOLANA_ADDRESS_REGEX, (match) => {
-        if (aliasesMap[match]) return aliasesMap[match].title;
+    (string: string): ReactNode => {
+      const parts = string.split(SOLANA_ADDRESS_REGEX).filter((a) => a !== '');
 
-        const decoded = base58.decode(match);
+      return (
+        <HStack flexWrap="wrap">
+          {parts.map((p, i) => {
+            if (SOLANA_ADDRESS_REGEX.test(p)) {
+              const decoded = base58.decode(p);
 
-        if (decoded.length === SOLANA_ADDRESS_LENGTH) {
-          // Truncate to the desired format: "xxxx...xxxx"
-          return `${match.slice(0, 4)}...${match.slice(-4)}`;
-        }
+              if (decoded.length === SOLANA_ADDRESS_LENGTH) {
+                return <InlineSolanaAddress key={p} alias={aliasesMap[p]} address={p} />;
+              }
+            }
 
-        // If not a valid Solana address, return the original match
-        return match;
-      }),
+            // If not a valid Solana address, return the original match
+            return <Text key={`${p} - ${i}`}>{p}</Text>;
+          })}
+        </HStack>
+      );
+    },
     [aliasesMap],
   );
 
