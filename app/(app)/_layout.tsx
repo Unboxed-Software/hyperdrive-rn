@@ -22,7 +22,7 @@ export default function AppLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="transactions" options={{ headerShown: false, presentation: 'modal' }} />
+      <Stack.Screen name="transactions" options={{ headerTitle: '' }} />
       <Stack.Screen name="aliases" />
     </Stack>
   );
